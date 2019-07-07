@@ -2,14 +2,15 @@ package com.dietsheet_server.DAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 
 public abstract class AbstractDAO< T > {
-    private Class< T > clazz;
+    protected Class< T > clazz;
 
     @PersistenceContext
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
 
     public final void setClazz( Class< T > clazzToSet ){
@@ -20,10 +21,17 @@ public abstract class AbstractDAO< T > {
         return entityManager.find(clazz, id);
     }
 
+    @SuppressWarnings("unchecked")
+    public T getByName( String username ) {
+        String hql = "from " + clazz.getName() + " c where c.username = :username";
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("username", username);
+        return (T) query.getSingleResult();
+    }
+
     public List< T > getAll(){
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
-
 
     public void save( T entity ) {
         entityManager.persist(entity);
@@ -45,5 +53,7 @@ public abstract class AbstractDAO< T > {
     public void deleteAll() {
         entityManager.createQuery("delete from " + clazz.getName()).executeUpdate();
     }
+
+
 
 }
