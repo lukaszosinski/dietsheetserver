@@ -1,0 +1,64 @@
+package com.dietsheet_server.service;
+
+
+import com.dietsheet_server.DAO.DayDAO;
+import com.dietsheet_server.model.Day;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@org.springframework.stereotype.Service("dayService")
+@Transactional
+public class DayServiceImpl implements Service<Day> {
+
+    @Autowired
+    private DayDAO dayDAO;
+
+    @Override
+    public Day findById(long id) {
+        Day day = dayDAO.get(id);
+        if(day == null) {
+            return null;
+        }
+        Hibernate.initialize(day.getMeals());
+        return day;
+    }
+
+    @Override
+    public Day findByName(String name) {
+        return null;
+    }
+
+    @Override
+    public void save(Day day) {
+        dayDAO.save(day);
+    }
+
+    @Override
+    public void update(Day day) {
+        dayDAO.update(day);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        dayDAO.delete(id);
+    }
+
+    @Override
+    public List<Day> findAll() {
+        return dayDAO.getAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        dayDAO.deleteAll();
+    }
+
+    @Override
+    public boolean isExist(Day day) {
+        return dayDAO.get(day.getId()) != null;
+    }
+}
+
