@@ -39,7 +39,7 @@ public class MealController {
     }
 
     @PostMapping(value = "/meal/")
-    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal) {
 
         if (mealService.isExist(meal)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

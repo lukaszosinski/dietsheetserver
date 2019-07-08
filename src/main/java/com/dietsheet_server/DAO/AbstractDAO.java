@@ -2,7 +2,6 @@ package com.dietsheet_server.DAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.List;
 
 
@@ -19,14 +18,6 @@ public abstract class AbstractDAO< T > {
 
     public T get( long id ){
         return entityManager.find(clazz, id);
-    }
-
-    @SuppressWarnings("unchecked")
-    public T getByName( String username ) {
-        String hql = "from " + clazz.getName() + " c where c.username = :username";
-        Query query = entityManager.createQuery(hql);
-        query.setParameter("username", username);
-        return (T) query.getSingleResult();
     }
 
     public List< T > getAll(){
