@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  db:
+    image: microsoft/mssql-server-linux:latest
+    network_mode: bridge
+    restart: always
+    container_name: "diet_sqlServer"
+    environment:
+      SA_PASSWORD: sql12345SQL
+      ACCEPT_EULA: Y
+    ports:
+      - '1433:1433'
+    command: bash -c "sh entrypoint.sh & /opt/mssql/bin/sqlservr"
