@@ -6,10 +6,10 @@ import java.util.List;
 
 
 public abstract class AbstractDAO< T > {
-    private Class< T > clazz;
+    protected Class< T > clazz;
 
     @PersistenceContext
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
 
     public final void setClazz( Class< T > clazzToSet ){
@@ -23,7 +23,6 @@ public abstract class AbstractDAO< T > {
     public List< T > getAll(){
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
-
 
     public void save( T entity ) {
         entityManager.persist(entity);
@@ -45,5 +44,7 @@ public abstract class AbstractDAO< T > {
     public void deleteAll() {
         entityManager.createQuery("delete from " + clazz.getName()).executeUpdate();
     }
+
+
 
 }

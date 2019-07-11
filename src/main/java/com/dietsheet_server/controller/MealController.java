@@ -1,8 +1,5 @@
 package com.dietsheet_server.controller;
 
-
-
-
 import com.dietsheet_server.model.Meal;
 import com.dietsheet_server.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -39,7 +35,7 @@ public class MealController {
     }
 
     @PostMapping(value = "/meal/")
-    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Meal> createMeal(@RequestBody Meal meal) {
 
         if (mealService.isExist(meal)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
