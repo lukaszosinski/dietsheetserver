@@ -4,7 +4,6 @@ import com.dietsheet_server.DAO.UserDAO;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.security.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +14,9 @@ import java.util.Map;
 import static org.apache.commons.lang3.StringUtils.removeStart;
 
 @RestController
-@RequestMapping("/public/user")
+@RequestMapping("/public")
 @Transactional
-public class UserController {
+public class SessionController {
 
     @Autowired
     UserAuthenticationService userAuthenticationService;
@@ -25,11 +24,11 @@ public class UserController {
     @Autowired
     UserDAO userDAO;
 
-    @PostMapping("/register")
-    public String register(@RequestHeader("authorization") final String authorization) {
-        final String basicAuth = removeStart(authorization, "Basic").trim();
+    @PostMapping("/user")
+    public String createUser(@RequestHeader("authorization") final String authorization) {
+        final String authHeader = removeStart(authorization, "Basic").trim();
 
-        Map<String, String> userData = getUserDataFromAuthHeader(basicAuth);
+        Map<String, String> userData = getUserDataFromAuthHeader(authHeader);
 
         User newUser = new User();
 
@@ -41,22 +40,29 @@ public class UserController {
         return userAuthenticationService.login(newUser.getUsername(), newUser.getPassword());
     }
 
-    @PostMapping("/login")
-    public String login(@RequestHeader("authorization") final String authorization) {
-        final String basicAuth = removeStart(authorization, "Basic").trim();
+    @PostMapping("/session")
+    public String createSession(@RequestHeader("authorization") final String authorization) {
+        final String authHeader = removeStart(authorization, "Basic").trim();
 
-        Map<String, String> userData = getUserDataFromAuthHeader(basicAuth);
+        Map<String, String> userData = getUserDataFromAuthHeader(authHeader);
 
         return userAuthenticationService.login(userData.get("username"), userData.get("password"));
     }
 
     private Map<String, String> getUserDataFromAuthHeader(String auth) {
         Map<String, String> userData = new HashMap<>();
+        String[] data = null;
 
-        String[] data = new String(Base64
-                .getDecoder()
-                .decode(auth)
-        ).split(":");
+        try {
+             data = new String(Base64
+                    .getDecoder()
+                    .decode(auth)
+            ).split(":");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new RuntimeException("invalid Basic authorization header");
+        }
+
 
         userData.put("username", data[0]);
         userData.put("password", data[1]);
