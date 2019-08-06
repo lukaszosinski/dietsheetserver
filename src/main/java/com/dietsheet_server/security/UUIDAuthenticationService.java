@@ -22,11 +22,10 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 
         final User user = userDAO.getByName(username);
 
-
         if(user != null) {
             if (user.getPassword().equals(password)) {
                 user.setToken(uuid);
-                userDAO.save(user);
+                userDAO.update(user);
                 return uuid;
             }
         }

@@ -1,6 +1,7 @@
 package com.dietsheet_server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,7 +28,6 @@ public class User implements UserDetails {
     @Column(name = "token")
     private String token;
 
-
     public Long getId() {
         return id;
     }
@@ -40,6 +40,7 @@ public class User implements UserDetails {
         this.username = username;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
