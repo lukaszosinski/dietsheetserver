@@ -3,8 +3,12 @@ package com.dietsheet_server.service;
 
 import com.dietsheet_server.DAO.MealDAO;
 import com.dietsheet_server.model.Meal;
+import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,21 +21,17 @@ public class MealServiceImpl implements Service<Meal> {
     private MealDAO mealDAO;
 
     @Override
+    @PostAuthorize("returnObject.getOwner().getUsername() == principal.getUsername()")
     public Meal findById(long id) {
         Meal meal = mealDAO.get(id);
         if(meal == null) {
-            return null;
+            throw new ResourceNotFoundException();
         }
         Hibernate.initialize(meal.getIngredients());
         meal.getIngredients().forEach(ingredient ->
             Hibernate.initialize(ingredient.getProduct())
         );
         return meal;
-    }
-
-    @Override
-    public Meal findByName(String name) {
-        return null;
     }
 
     @Override
@@ -50,8 +50,18 @@ public class MealServiceImpl implements Service<Meal> {
     }
 
     @Override
+    public void delete(Meal meal) {
+        mealDAO.delete(meal);
+    }
+
+    @Override
     public List<Meal> findAll() {
         return mealDAO.getAll();
+    }
+
+    @Override
+    public List<Meal> findAll(User user) {
+        return mealDAO.getAllByUser(user);
     }
 
     @Override

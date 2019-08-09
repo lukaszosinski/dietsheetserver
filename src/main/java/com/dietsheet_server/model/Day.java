@@ -1,7 +1,4 @@
 package com.dietsheet_server.model;
-
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -15,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "day")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Day {
+public class Day extends OwnedEntity {
 
     @Id
     @Column(name = "day_id")

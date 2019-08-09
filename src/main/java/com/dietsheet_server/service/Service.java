@@ -1,12 +1,12 @@
 package com.dietsheet_server.service;
 
+import com.dietsheet_server.model.User;
+
 import java.util.List;
 
 public interface Service<T> {
 
     T findById(long id);
-
-    T findByName(String name);
 
     void save(T object);
 
@@ -14,9 +14,14 @@ public interface Service<T> {
 
     void deleteById(long id);
 
+    void delete(T entity);
+
     List<T> findAll();
+
+    List<T> findAll(User user);
 
     void deleteAll();
 
-    public boolean isExist(T object);
+    boolean isExist(T object);
+
 }

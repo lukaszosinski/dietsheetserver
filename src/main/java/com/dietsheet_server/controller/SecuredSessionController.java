@@ -18,7 +18,7 @@ public class SecuredSessionController {
     @Autowired
     UserAuthenticationService authentication;
 
-    @DeleteMapping("/")
+    @DeleteMapping("")
     boolean deleteSession(@AuthenticationPrincipal final User user) {
         authentication.logout(user);
         return true;

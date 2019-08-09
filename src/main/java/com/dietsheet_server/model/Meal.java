@@ -1,5 +1,6 @@
 package com.dietsheet_server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "meal")
-public class Meal {
+public class Meal extends OwnedEntity {
 
     @Id
     @Column(name = "meal_id")
@@ -38,7 +39,6 @@ public class Meal {
         this.name = name;
         this.ingredients = ingredients;
     }
-
 
     public long getId() {
         return id;
@@ -68,4 +68,5 @@ public class Meal {
         this.ingredients.clear();
         this.ingredients.addAll(newIngredients);
     }
+
 }
