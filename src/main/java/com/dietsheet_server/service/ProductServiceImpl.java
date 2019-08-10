@@ -42,11 +42,6 @@ public class ProductServiceImpl implements Service<Product>{
     }
 
     @Override
-    public void deleteById(long id) {
-        productDAO.delete(id);
-    }
-
-    @Override
     public void delete(Product product) {
         productDAO.delete(product);
     }
@@ -54,6 +49,11 @@ public class ProductServiceImpl implements Service<Product>{
     @Override
     public List<Product> findAll() {
         return productDAO.getAll();
+    }
+
+    @Override
+    public List<Product> findAll(List<Long> ids) {
+        return null;
     }
 
     @Override

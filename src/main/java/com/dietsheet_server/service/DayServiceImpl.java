@@ -42,17 +42,17 @@ public class DayServiceImpl implements Service<Day> {
     }
 
     @Override
-    public void deleteById(long id) {
-        dayDAO.delete(id);
-    }
-
-    @Override
     public void delete(Day day) {
        dayDAO.delete(day);
     }
     @Override
     public List<Day> findAll() {
         return dayDAO.getAll();
+    }
+
+    @Override
+    public List<Day> findAll(List<Long> ids) {
+        return dayDAO.getByIds(ids);
     }
 
     @Override

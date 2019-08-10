@@ -15,7 +15,6 @@ import java.util.Set;
 public class Day extends DietEntity {
 
     @Id
-    @Column(name = "day_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 

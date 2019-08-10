@@ -14,7 +14,6 @@ import java.util.Collection;
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

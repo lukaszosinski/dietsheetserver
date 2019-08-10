@@ -13,7 +13,7 @@ public abstract class DietEntity extends OwnedEntity {
             fetch = FetchType.LAZY)
     @JoinColumn(
             name = "summary_id",
-            referencedColumnName = "summary_id",
+            referencedColumnName = "id",
             unique = true
     )
     private Summary summary;

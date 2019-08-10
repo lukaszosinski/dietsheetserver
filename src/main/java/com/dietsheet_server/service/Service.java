@@ -12,11 +12,11 @@ public interface Service<T> {
 
     void update(T object);
 
-    void deleteById(long id);
-
     void delete(T entity);
 
     List<T> findAll();
+
+    List<T> findAll(List<Long> ids);
 
     List<T> findAll(User user);
 

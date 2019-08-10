@@ -1,8 +1,6 @@
 package com.dietsheet_server.DAO;
 
 import com.dietsheet_server.model.User;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -33,6 +31,15 @@ public abstract class AbstractDAO< T > {
         return entityManager
                 .createQuery(hql, clazz)
                 .setParameter("owner", user)
+                .getResultList();
+    }
+
+    public List< T > getByIds(List<Long> ids) {
+        String hql = "from " + clazz.getName() + " c where c.id IN(:ids)";
+
+        return entityManager
+                .createQuery(hql, clazz)
+                .setParameter("ids", ids)
                 .getResultList();
     }
 

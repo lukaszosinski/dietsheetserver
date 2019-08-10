@@ -44,10 +44,6 @@ public class MealServiceImpl implements Service<Meal> {
         mealDAO.update(meal);
     }
 
-    @Override
-    public void deleteById(long id) {
-        mealDAO.delete(id);
-    }
 
     @Override
     public void delete(Meal meal) {
@@ -57,6 +53,11 @@ public class MealServiceImpl implements Service<Meal> {
     @Override
     public List<Meal> findAll() {
         return mealDAO.getAll();
+    }
+
+    @Override
+    public List<Meal> findAll(List<Long> ids) {
+        return null;
     }
 
     @Override
