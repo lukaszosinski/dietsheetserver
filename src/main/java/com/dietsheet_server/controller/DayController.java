@@ -38,6 +38,13 @@ public class DayController {
 
         day.setOwner(user);
         dayService.save(day);
+        if(day.getMeals().size() > 0) {
+            day = dayService.findById(day.getId());
+            day.recalculateSummary();
+            dayService.update(day);
+        }
+
+
         return new ResponseEntity<>(day, HttpStatus.CREATED);
     }
 
@@ -49,9 +56,14 @@ public class DayController {
 
     @PutMapping(value = "/day/{id}")
     public ResponseEntity<Day> updateDay(@PathVariable("id") long id, @RequestBody Day day) {
+
         Day dayToUpdate = dayService.findById(id);
         dayToUpdate.setMeals(day.getMeals());
         dayService.update(dayToUpdate);
+        dayToUpdate = dayService.findById(dayToUpdate.getId());
+        dayToUpdate.recalculateSummary();
+        dayService.update(dayToUpdate);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

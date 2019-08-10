@@ -42,20 +42,20 @@ public class Summary {
 
     public Summary add(Summary summaryToAdd) {
         return new Summary(
-                this.kcal         + summaryToAdd.kcal,
-                this.proteins  + summaryToAdd.proteins,
-                this.carbs       + summaryToAdd.carbs,
-                this.fat           + summaryToAdd.carbs,
-                this.roughage + summaryToAdd.roughage
+                this.getKcal()         + summaryToAdd.getKcal()  ,
+                this.getProteins()  + summaryToAdd.getProteins(),
+                this.getCarbs()       + summaryToAdd.getCarbs() ,
+                this.getFat()           + summaryToAdd.getFat()  ,
+                this.getRoughage() + summaryToAdd.getRoughage()
         );
     }
 
     public Summary add(Summary summaryToAdd, double multiplier) {
         return new Summary(
-                (int) (this.getKcal()        + summaryToAdd.getKcal()  * multiplier),
+                (int) (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
                 (int) (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
-                (int) (this.getCarbs()      +  summaryToAdd.getCarbs() * multiplier),
-                (int) (this.getFat()        +  summaryToAdd.getFat()   * multiplier),
+                (int) (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
+                (int) (this.getFat()         + summaryToAdd.getFat()      * multiplier),
                 (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
         );
     }
