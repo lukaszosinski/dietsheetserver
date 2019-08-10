@@ -34,7 +34,7 @@ public class Meal extends DietEntity {
     public Meal() {
         super();
         if(getSummary() == null) {
-            setSummary(new Summary(0, 0, 0, 0, 0));
+            setSummary(new Summary());
         }
     }
 
@@ -69,7 +69,7 @@ public class Meal extends DietEntity {
 
     @Override
     public void recalculateSummary() {
-        Summary newSummary = new Summary(0,0,0,0,0);
+        Summary newSummary = new Summary();
         for (Ingredient ingredient: this.getIngredients()
              ) {
             Summary summaryToAdd = ingredient.getProduct().getSummary();

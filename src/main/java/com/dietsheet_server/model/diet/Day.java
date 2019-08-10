@@ -33,7 +33,7 @@ public class Day extends DietEntity {
     public Day() {
         super();
         if(getSummary() == null) {
-            setSummary(new Summary(0, 0, 0, 0, 0));
+            setSummary(new Summary());
         }
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
@@ -66,7 +66,6 @@ public class Day extends DietEntity {
     public void updateMeals(Set<Meal> newMeals) {
         this.meals.clear();
         this.meals.addAll(newMeals);
-        this.recalculateSummary();
     }
 
     @Override

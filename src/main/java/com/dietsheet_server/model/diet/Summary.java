@@ -30,6 +30,11 @@ public class Summary {
     private int roughage;
 
     public Summary() {
+        this.kcal = 0;
+        this.proteins = 0;
+        this.carbs = 0;
+        this.fat = 0;
+        this.roughage = 0;
     }
 
     public Summary(int kcal, int proteins, int carbs, int fat, int roughage) {
