@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "day")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Day extends OwnedEntity {
+public class Day extends DietEntity {
 
     @Id
     @Column(name = "day_id")
@@ -31,6 +31,7 @@ public class Day extends OwnedEntity {
     private Set<Meal> meals = new HashSet<>();
 
     public Day() {
+        super();
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
     }
@@ -62,6 +63,17 @@ public class Day extends OwnedEntity {
     public void updateMeals(Set<Meal> newMeals) {
         this.meals.clear();
         this.meals.addAll(newMeals);
+        this.recalculateSummary();
     }
 
+    @Override
+    public void recalculateSummary() {
+        Summary newSummary = new Summary();
+        for (Meal meal: meals
+             ) {
+           // Summary summaryToAdd = meal.getSummary();
+            //newSummary = newSummary.add(summaryToAdd);
+        }
+        this.updateSummary(newSummary);
+    }
 }

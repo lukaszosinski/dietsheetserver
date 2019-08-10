@@ -18,7 +18,7 @@ public class MealController {
     @Autowired
     Service<Meal> mealService;
 
-    @GetMapping(value = "/meal/")
+    @GetMapping(value = "/meal")
     public ResponseEntity<List<Meal>> getAllMeals(@AuthenticationPrincipal User user) {
         List<Meal> meals = mealService.findAll(user);
         if(meals.isEmpty()){
@@ -33,7 +33,7 @@ public class MealController {
         return new ResponseEntity<>(meal, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/meal/")
+    @PostMapping(value = "/meal")
     public ResponseEntity<Meal> createMeal(
             @RequestBody Meal meal,
             @AuthenticationPrincipal User user) {
@@ -44,6 +44,10 @@ public class MealController {
 
         meal.setOwner(user);
         mealService.save(meal);
+        meal = mealService.findById(meal.getId());
+        meal.recalculateSummary();
+        mealService.update(meal);
+
         return new ResponseEntity<>(meal, HttpStatus.CREATED);
     }
 
@@ -53,12 +57,15 @@ public class MealController {
 
         mealToUpdate.setName(meal.getName());
         mealToUpdate.updateIngredients(meal.getIngredients());
-
         mealService.update(mealToUpdate);
+        mealToUpdate = mealService.findById(mealToUpdate.getId());
+        mealToUpdate.recalculateSummary();
+        mealService.update(mealToUpdate);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/meal/")
+    @DeleteMapping(value = "/meal")
     public ResponseEntity<Meal> deleteAllMeals() {
         mealService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

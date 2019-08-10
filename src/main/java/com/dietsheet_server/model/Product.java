@@ -8,8 +8,7 @@ import javax.persistence.*;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "product")
-public class Product extends OwnedEntity {
-
+public class Product extends DietEntity {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,25 +17,10 @@ public class Product extends OwnedEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade =
-            CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "product_details_id",
-            referencedColumnName = "product_details_id",
-            unique = true)
-    private ProductDetails productDetails;
-
-
-    public Product() {
+    Product() {
+        super();
     }
 
-    public Product(String name, ProductDetails productDetails) {
-        this.name = name;
-        this.productDetails = productDetails;
-    }
-    
     public long getId() {
         return id;
     }
@@ -53,17 +37,8 @@ public class Product extends OwnedEntity {
         this.name = name;
     }
 
-    public ProductDetails getProductDetails() {
-        return productDetails;
+    @Override
+    public void recalculateSummary() {
+        //Do nothing
     }
-
-    public void setProductDetails(ProductDetails productDetails) {
-        this.productDetails = productDetails;
-    }
-
-    public void updateProductDetails(ProductDetails newProductDetails) {
-        newProductDetails.setId(this.productDetails.getId());
-        this.productDetails = newProductDetails;
-    }
-
 }

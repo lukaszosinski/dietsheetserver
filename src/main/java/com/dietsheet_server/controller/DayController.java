@@ -18,7 +18,7 @@ public class DayController {
     @Autowired
     Service<Day> dayService;
 
-    @GetMapping(value = "/day/")
+    @GetMapping(value = "/day")
     public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
         List<Day> days = dayService.findAll(user);
         if(days.isEmpty()){
@@ -27,7 +27,7 @@ public class DayController {
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/day/")
+    @PostMapping(value = "/day")
     public ResponseEntity<Day> createMeal(
             @RequestBody Day day,
             @AuthenticationPrincipal User user) {

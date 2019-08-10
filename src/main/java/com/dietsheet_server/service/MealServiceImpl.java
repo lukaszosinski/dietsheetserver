@@ -27,6 +27,7 @@ public class MealServiceImpl implements Service<Meal> {
         if(meal == null) {
             throw new ResourceNotFoundException();
         }
+        Hibernate.initialize(meal.getSummary());
         Hibernate.initialize(meal.getIngredients());
         meal.getIngredients().forEach(ingredient ->
             Hibernate.initialize(ingredient.getProduct())
@@ -61,6 +62,8 @@ public class MealServiceImpl implements Service<Meal> {
 
     @Override
     public List<Meal> findAll(User user) {
+        List<Meal> mealList = mealDAO.getAllByUser(user);
+        mealList.forEach(meal -> Hibernate.initialize(meal.getSummary()));
         return mealDAO.getAllByUser(user);
     }
 
