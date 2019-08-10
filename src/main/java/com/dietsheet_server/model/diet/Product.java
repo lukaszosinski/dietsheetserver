@@ -1,5 +1,6 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
 
+import com.dietsheet_server.model.diet.DietEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;

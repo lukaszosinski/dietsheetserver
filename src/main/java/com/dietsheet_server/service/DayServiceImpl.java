@@ -2,7 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.DayDAO;
-import com.dietsheet_server.model.Day;
+import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;

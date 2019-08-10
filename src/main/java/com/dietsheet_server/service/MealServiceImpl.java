@@ -2,8 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.MealDAO;
-import com.dietsheet_server.model.Meal;
-import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;

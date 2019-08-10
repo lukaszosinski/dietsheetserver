@@ -1,4 +1,4 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,6 +1,6 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.model.Meal;
+import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;

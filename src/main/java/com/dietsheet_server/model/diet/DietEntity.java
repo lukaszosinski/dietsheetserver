@@ -1,4 +1,6 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
+
+import com.dietsheet_server.model.OwnedEntity;
 
 import javax.persistence.*;
 
