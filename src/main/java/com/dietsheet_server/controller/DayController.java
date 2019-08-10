@@ -1,6 +1,6 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.model.Day;
+import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class DayController {
     @Autowired
     Service<Day> dayService;
 
-    @GetMapping(value = "/day/")
+    @GetMapping(value = "/day")
     public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
         List<Day> days = dayService.findAll(user);
         if(days.isEmpty()){
@@ -27,7 +27,7 @@ public class DayController {
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/day/")
+    @PostMapping(value = "/day")
     public ResponseEntity<Day> createMeal(
             @RequestBody Day day,
             @AuthenticationPrincipal User user) {
@@ -38,6 +38,13 @@ public class DayController {
 
         day.setOwner(user);
         dayService.save(day);
+        if(day.getMeals().size() > 0) {
+            day = dayService.findById(day.getId());
+            day.recalculateSummary();
+            dayService.update(day);
+        }
+
+
         return new ResponseEntity<>(day, HttpStatus.CREATED);
     }
 
@@ -49,9 +56,14 @@ public class DayController {
 
     @PutMapping(value = "/day/{id}")
     public ResponseEntity<Day> updateDay(@PathVariable("id") long id, @RequestBody Day day) {
+
         Day dayToUpdate = dayService.findById(id);
         dayToUpdate.setMeals(day.getMeals());
         dayService.update(dayToUpdate);
+        dayToUpdate = dayService.findById(dayToUpdate.getId());
+        dayToUpdate.recalculateSummary();
+        dayService.update(dayToUpdate);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

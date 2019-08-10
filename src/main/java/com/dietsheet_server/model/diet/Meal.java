@@ -1,6 +1,5 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "meal")
-public class Meal extends OwnedEntity {
+public class Meal extends DietEntity {
 
     @Id
     @Column(name = "meal_id")
@@ -33,11 +32,10 @@ public class Meal extends OwnedEntity {
     private Set<Day> days = new HashSet<>();
 
     public Meal() {
-    }
-
-    public Meal(String name, List<Ingredient> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
+        super();
+        if(getSummary() == null) {
+            setSummary(new Summary());
+        }
     }
 
     public long getId() {
@@ -69,4 +67,15 @@ public class Meal extends OwnedEntity {
         this.ingredients.addAll(newIngredients);
     }
 
+    @Override
+    public void recalculateSummary() {
+        Summary newSummary = new Summary();
+        for (Ingredient ingredient: this.getIngredients()
+             ) {
+            Summary summaryToAdd = ingredient.getProduct().getSummary();
+            double multiplier = (double) ingredient.getAmount() / 100;
+            newSummary = newSummary.add(summaryToAdd, multiplier);
+        }
+        this.updateSummary(newSummary);
+    }
 }

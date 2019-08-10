@@ -2,7 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.ProductDAO;
-import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements Service<Product>{
         if(product == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(product.getProductDetails());
+        Hibernate.initialize(product.getSummary());
         return product;
     }
 

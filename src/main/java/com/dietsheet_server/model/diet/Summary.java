@@ -1,16 +1,16 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product_details")
+@Table(name = "summary")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProductDetails {
+public class Summary {
 
 
     @Id
-    @Column(name = "product_details_id")
+    @Column(name = "summary_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -29,15 +29,40 @@ public class ProductDetails {
     @Column(name = "roughage")
     private int roughage;
 
-    public ProductDetails() {
+    public Summary() {
+        this.kcal = 0;
+        this.proteins = 0;
+        this.carbs = 0;
+        this.fat = 0;
+        this.roughage = 0;
     }
 
-    public ProductDetails(int kcal, int proteins, int carbs, int fat, int roughage) {
+    public Summary(int kcal, int proteins, int carbs, int fat, int roughage) {
         this.kcal = kcal;
         this.proteins = proteins;
         this.carbs = carbs;
         this.fat = fat;
         this.roughage = roughage;
+    }
+
+    public Summary add(Summary summaryToAdd) {
+        return new Summary(
+                this.getKcal()         + summaryToAdd.getKcal()  ,
+                this.getProteins()  + summaryToAdd.getProteins(),
+                this.getCarbs()       + summaryToAdd.getCarbs() ,
+                this.getFat()           + summaryToAdd.getFat()  ,
+                this.getRoughage() + summaryToAdd.getRoughage()
+        );
+    }
+
+    public Summary add(Summary summaryToAdd, double multiplier) {
+        return new Summary(
+                (int) (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
+                (int) (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
+                (int) (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
+                (int) (this.getFat()         + summaryToAdd.getFat()      * multiplier),
+                (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
+        );
     }
 
     public long getId() {

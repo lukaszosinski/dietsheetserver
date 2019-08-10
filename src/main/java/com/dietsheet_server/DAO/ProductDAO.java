@@ -1,7 +1,7 @@
 package com.dietsheet_server.DAO;
 
 
-import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.diet.Product;
 import org.springframework.stereotype.Component;
 
 @Component("productDAO")

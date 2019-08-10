@@ -2,8 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.MealDAO;
-import com.dietsheet_server.model.Meal;
-import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,7 @@ public class MealServiceImpl implements Service<Meal> {
         if(meal == null) {
             throw new ResourceNotFoundException();
         }
+        Hibernate.initialize(meal.getSummary());
         Hibernate.initialize(meal.getIngredients());
         meal.getIngredients().forEach(ingredient ->
             Hibernate.initialize(ingredient.getProduct())
@@ -61,6 +61,8 @@ public class MealServiceImpl implements Service<Meal> {
 
     @Override
     public List<Meal> findAll(User user) {
+        List<Meal> mealList = mealDAO.getAllByUser(user);
+        mealList.forEach(meal -> Hibernate.initialize(meal.getSummary()));
         return mealDAO.getAllByUser(user);
     }
 

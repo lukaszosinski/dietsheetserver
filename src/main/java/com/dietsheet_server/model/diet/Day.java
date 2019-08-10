@@ -1,4 +1,4 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "day")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Day extends OwnedEntity {
+public class Day extends DietEntity {
 
     @Id
     @Column(name = "day_id")
@@ -31,6 +31,10 @@ public class Day extends OwnedEntity {
     private Set<Meal> meals = new HashSet<>();
 
     public Day() {
+        super();
+        if(getSummary() == null) {
+            setSummary(new Summary());
+        }
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
     }
@@ -64,4 +68,14 @@ public class Day extends OwnedEntity {
         this.meals.addAll(newMeals);
     }
 
+    @Override
+    public void recalculateSummary() {
+        Summary newSummary = new Summary();
+        for (Meal meal: meals
+             ) {
+             Summary summaryToAdd = meal.getSummary();
+             newSummary = newSummary.add(summaryToAdd);
+        }
+        this.updateSummary(newSummary);
+    }
 }

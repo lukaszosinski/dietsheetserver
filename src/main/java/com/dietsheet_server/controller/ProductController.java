@@ -1,6 +1,6 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.model.Product;
+import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class ProductController {
 
         Product productToUpdate = productService.findById(id);
         productToUpdate.setName(product.getName());
-        productToUpdate.updateProductDetails(product.getProductDetails());
+        productToUpdate.updateSummary(product.getSummary());
 
         productService.update(productToUpdate);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
