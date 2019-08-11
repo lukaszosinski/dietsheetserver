@@ -3,7 +3,6 @@ package com.dietsheet_server.security;
 import com.dietsheet_server.DAO.UserDAO;
 import com.dietsheet_server.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +16,15 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
     UserDAO userDAO;
 
     @Override
-    public String login(final String username, final String password) {
+    public User login(final String username, final String password) {
         final String uuid = UUID.randomUUID().toString();
 
         final User user = userDAO.getByName(username);
 
-        if(user != null) {
-            if (user.getPassword().equals(password)) {
-                user.setToken(uuid);
-                userDAO.update(user);
-                return uuid;
-            }
+        if (user != null && user.getPassword().equals(password)) {
+            user.setToken(uuid);
+            userDAO.update(user);
+            return user;
         }
 
         throw new RuntimeException("invalid login and/or password");
