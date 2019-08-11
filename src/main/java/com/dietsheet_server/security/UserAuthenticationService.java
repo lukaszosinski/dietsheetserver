@@ -4,7 +4,7 @@ import com.dietsheet_server.model.User;
 
 public interface UserAuthenticationService {
 
-    String login(String username, String password);
+    User login(String username, String password);
 
     User findByToken(String token);
 
