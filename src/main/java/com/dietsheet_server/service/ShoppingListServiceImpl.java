@@ -1,5 +1,6 @@
 package com.dietsheet_server.service;
 
+import com.dietsheet_server.DAO.ShoppingListDAO;
 import com.dietsheet_server.builder.ShoppingListBuilder;
 import com.dietsheet_server.model.ShoppingList;
 import com.dietsheet_server.model.User;
@@ -16,50 +17,52 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     @Autowired
     ShoppingListBuilder shoppingListBuilder;
 
+    @Autowired
+    ShoppingListDAO shoppingListDAO;
+
     @Override
     public ShoppingList findById(long id) {
         return null;
     }
 
     @Override
-    public void save(ShoppingList object) {
-
+    public void save(ShoppingList shoppingList) {
+        shoppingListDAO.save(shoppingList);
     }
 
     @Override
-    public void update(ShoppingList object) {
-
+    public void update(ShoppingList shoppingList) {
+        shoppingListDAO.update(shoppingList);
     }
 
-
     @Override
-    public void delete(ShoppingList entity) {
-
+    public void delete(ShoppingList shoppingList) {
+        shoppingListDAO.delete(shoppingList);
     }
 
     @Override
     public List<ShoppingList> findAll() {
-        return null;
+        return shoppingListDAO.getAll();
     }
 
     @Override
     public List<ShoppingList> findAll(List<Long> ids) {
-        return null;
+        return shoppingListDAO.getByIds(ids);
     }
 
     @Override
     public List<ShoppingList> findAll(User user) {
-        return null;
+        return shoppingListDAO.getAllByUser(user);
     }
 
     @Override
     public void deleteAll() {
-
+        shoppingListDAO.deleteAll();
     }
 
     @Override
-    public boolean isExist(ShoppingList object) {
-        return false;
+    public boolean isExist(ShoppingList shoppingList) {
+        return shoppingListDAO.get(shoppingList.getId()) != null;
     }
 
     @Override

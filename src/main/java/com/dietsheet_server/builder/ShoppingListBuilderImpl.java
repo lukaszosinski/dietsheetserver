@@ -1,7 +1,6 @@
 package com.dietsheet_server.builder;
 
 import com.dietsheet_server.model.ShoppingList;
-import com.dietsheet_server.model.ShoppingListItem;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.dietsheet_server.model.diet.Product;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -22,22 +21,28 @@ public class ShoppingListBuilderImpl implements ShoppingListBuilder {
     @Override
     public ShoppingListBuilder addItem(Ingredient ingredient) {
         if (ingredientAmountMap.containsKey(ingredient.getProduct())) {
-            ingredientAmountMap.put(ingredient.getProduct(), ingredientAmountMap.get(ingredient.getProduct()) + ingredient.getAmount());
+            ingredientAmountMap.put(
+                    ingredient.getProduct(),
+                    ingredientAmountMap.get(ingredient.getProduct()) + ingredient.getAmount()
+            );
         }
         else {
-            ingredientAmountMap.put(ingredient.getProduct(), ingredient.getAmount());
+            ingredientAmountMap.put(
+                    ingredient.getProduct(),
+                    ingredient.getAmount()
+            );
         }
         return this;
     }
 
     @Override
     public ShoppingList build() {
-        return new ShoppingList(getShoppingListItemList());
+        return new ShoppingList(getIngredientList());
     }
 
-    private List<ShoppingListItem> getShoppingListItemList() {
-        final List<ShoppingListItem> shoppingListItemList = new ArrayList<>();
-        ingredientAmountMap.forEach((product, amount) -> shoppingListItemList.add(new ShoppingListItem(product, amount)));
-        return shoppingListItemList;
+    private List<Ingredient> getIngredientList() {
+        final List<Ingredient> ingredientList = new ArrayList<>();
+        ingredientAmountMap.forEach((product, amount) -> ingredientList.add(new Ingredient(product, amount)));
+        return ingredientList;
     }
 }

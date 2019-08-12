@@ -28,7 +28,7 @@ public class DayController {
     }
 
     @PostMapping(value = "/day")
-    public ResponseEntity<Day> createMeal(
+    public ResponseEntity<Day> createDay(
             @RequestBody Day day,
             @AuthenticationPrincipal User user) {
 
@@ -43,7 +43,6 @@ public class DayController {
             day.recalculateSummary();
             dayService.update(day);
         }
-
 
         return new ResponseEntity<>(day, HttpStatus.CREATED);
     }
@@ -68,7 +67,7 @@ public class DayController {
     }
 
     @DeleteMapping(value = "/day/{id}")
-    public ResponseEntity<Day> deleteMeal(@PathVariable("id") long id) {
+    public ResponseEntity<Day> deleteDay(@PathVariable("id") long id) {
         Day day = dayService.findById(id);
         dayService.delete(day);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -8,7 +8,6 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class OwnedEntity {
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User owner;

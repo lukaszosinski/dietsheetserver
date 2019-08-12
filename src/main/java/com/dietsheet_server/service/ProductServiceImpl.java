@@ -7,7 +7,6 @@ import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class ProductServiceImpl implements Service<Product>{
 
 
     @Override
-    @PostAuthorize("returnObject.getOwner().getUsername() == principal.getUsername()")
     public Product findById(long id) {
         Product product = productDAO.get(id);
         if(product == null) {
