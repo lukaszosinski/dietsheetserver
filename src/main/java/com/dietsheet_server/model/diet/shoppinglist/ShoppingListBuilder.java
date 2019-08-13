@@ -1,6 +1,5 @@
-package com.dietsheet_server.builder;
+package com.dietsheet_server.model.diet.shoppinglist;
 
-import com.dietsheet_server.model.ShoppingList;
 import com.dietsheet_server.model.diet.Ingredient;
 
 public interface ShoppingListBuilder {

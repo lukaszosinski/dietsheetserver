@@ -1,11 +1,13 @@
 package com.dietsheet_server.service;
 
 import com.dietsheet_server.DAO.ShoppingListDAO;
-import com.dietsheet_server.builder.ShoppingListBuilder;
-import com.dietsheet_server.model.ShoppingList;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingListBuilder;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Day;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +24,15 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public ShoppingList findById(long id) {
-        return null;
+        ShoppingList shoppingList = shoppingListDAO.get(id);
+        if(shoppingList == null) {
+            throw new ResourceNotFoundException();
+        }
+        Hibernate.initialize(shoppingList.getItems());
+        shoppingList.getItems().forEach(item ->
+                Hibernate.initialize(item.getProduct())
+        );
+        return shoppingList;
     }
 
     @Override

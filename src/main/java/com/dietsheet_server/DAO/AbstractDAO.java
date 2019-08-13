@@ -52,7 +52,7 @@ public abstract class AbstractDAO< T > {
     }
 
     public void delete( T entity ){
-        entityManager.remove(entity);
+        entityManager.remove(entityManager.merge(entity));
     }
 
     public void delete( long entityId ) {

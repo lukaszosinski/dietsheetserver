@@ -1,6 +1,6 @@
 package com.dietsheet_server.DAO;
 
-import com.dietsheet_server.model.ShoppingList;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import org.springframework.stereotype.Component;
 
 @Component("shoppingListDAO")

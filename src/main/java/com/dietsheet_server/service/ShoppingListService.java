@@ -1,6 +1,6 @@
 package com.dietsheet_server.service;
 
-import com.dietsheet_server.model.ShoppingList;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.model.diet.Day;
 
 import java.util.List;

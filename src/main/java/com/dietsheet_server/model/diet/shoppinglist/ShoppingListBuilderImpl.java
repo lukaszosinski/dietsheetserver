@@ -1,11 +1,11 @@
-package com.dietsheet_server.builder;
+package com.dietsheet_server.model.diet.shoppinglist;
 
-import com.dietsheet_server.model.ShoppingList;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.dietsheet_server.model.diet.Product;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingListBuilderImpl implements ShoppingListBuilder {
 
     private Map<Product, Integer> ingredientAmountMap = new HashMap<>();

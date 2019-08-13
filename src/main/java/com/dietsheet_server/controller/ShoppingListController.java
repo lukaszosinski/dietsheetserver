@@ -1,5 +1,5 @@
 package com.dietsheet_server.controller;
-import com.dietsheet_server.model.ShoppingList;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.service.Service;
@@ -62,6 +62,7 @@ public class ShoppingListController {
             @RequestBody ShoppingList shoppingList) {
         ShoppingList shoppingListToUpdate = shoppingListService.findById(id);
         shoppingListToUpdate.updateItems(shoppingList.getItems());
+        shoppingListService.update(shoppingListToUpdate);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

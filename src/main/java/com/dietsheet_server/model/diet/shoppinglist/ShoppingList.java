@@ -1,6 +1,7 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.diet.shoppinglist;
 
 
+import com.dietsheet_server.model.OwnedEntity;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
