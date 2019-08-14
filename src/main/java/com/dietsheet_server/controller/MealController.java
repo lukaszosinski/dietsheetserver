@@ -37,17 +37,7 @@ public class MealController {
     public ResponseEntity<Meal> createMeal(
             @RequestBody Meal meal,
             @AuthenticationPrincipal User user) {
-
-        if (mealService.isExist(meal)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        meal.setOwner(user);
-        mealService.save(meal);
-        meal = mealService.findById(meal.getId());
-        meal.recalculateSummary();
-        mealService.update(meal);
-
+        mealService.save(meal, user);
         return new ResponseEntity<>(meal, HttpStatus.CREATED);
     }
 

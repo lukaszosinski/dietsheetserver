@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import java.util.HashSet;
-
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "day")
@@ -27,7 +25,7 @@ public class Day extends DietEntity {
             joinColumns = @JoinColumn(name = "day_id"),
             inverseJoinColumns = @JoinColumn(name = "meal_id")
     )
-    private Set<Meal> meals = new HashSet<>();
+    private List<Meal> meals = new ArrayList<>();
 
     public Day() {
         super();
@@ -54,11 +52,11 @@ public class Day extends DietEntity {
         this.date = date;
     }
 
-    public Set<Meal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 
-    public void setMeals(Set<Meal> meals) {
+    public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
 
@@ -76,5 +74,20 @@ public class Day extends DietEntity {
              newSummary = newSummary.add(summaryToAdd);
         }
         this.updateSummary(newSummary);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Day)) return false;
+        Day day = (Day) o;
+        return getId() == day.getId() &&
+                Objects.equals(getDate(), day.getDate()) &&
+                Objects.equals(getMeals(), day.getMeals());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDate(), getMeals());
     }
 }

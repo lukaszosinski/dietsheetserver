@@ -2,6 +2,7 @@ package com.dietsheet_server.model.diet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ingredient")
@@ -49,5 +50,20 @@ public class Ingredient {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredient)) return false;
+        Ingredient that = (Ingredient) o;
+        return getId() == that.getId() &&
+                getAmount() == that.getAmount() &&
+                Objects.equals(getProduct(), that.getProduct());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProduct(), getAmount());
     }
 }

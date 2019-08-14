@@ -31,19 +31,7 @@ public class DayController {
     public ResponseEntity<Day> createDay(
             @RequestBody Day day,
             @AuthenticationPrincipal User user) {
-
-        if (dayService.isExist(day)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        day.setOwner(user);
-        dayService.save(day);
-        if(day.getMeals().size() > 0) {
-            day = dayService.findById(day.getId());
-            day.recalculateSummary();
-            dayService.update(day);
-        }
-
+        dayService.save(day, user);
         return new ResponseEntity<>(day, HttpStatus.CREATED);
     }
 

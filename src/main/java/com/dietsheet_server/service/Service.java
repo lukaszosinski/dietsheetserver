@@ -14,6 +14,8 @@ public interface Service<T extends OwnedEntity> {
 
     void save(T object);
 
+    void save(T object, User owner);
+
     void update(T object);
 
     void delete(T entity);

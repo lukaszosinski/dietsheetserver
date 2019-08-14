@@ -2,14 +2,17 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.DayDAO;
+import com.dietsheet_server.DAO.MealDAO;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
-import org.hibernate.Hibernate;
+import com.dietsheet_server.model.diet.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service("dayService")
 @Transactional
@@ -17,6 +20,9 @@ public class DayServiceImpl implements Service<Day> {
 
     @Autowired
     private DayDAO dayDAO;
+
+    @Autowired
+    private Service<Meal> mealService;
 
     @Override
     public Day findById(long id) {
@@ -30,7 +36,20 @@ public class DayServiceImpl implements Service<Day> {
 
     @Override
     public void save(Day day) {
+        if(isExist(day)) {
+            throw new DataIntegrityViolationException("Resource exists");
+        }
+        if(day.getMeals().size() > 0) {
+            day.setMeals(getInitializedMeals(day.getMeals()));
+            day.recalculateSummary();
+        }
         dayDAO.save(day);
+    }
+
+    @Override
+    public void save(Day day, User owner) {
+        day.setOwner(owner);
+        save(day);
     }
 
     @Override
@@ -65,6 +84,13 @@ public class DayServiceImpl implements Service<Day> {
     @Override
     public boolean isExist(Day day) {
         return dayDAO.get(day.getId()) != null;
+    }
+
+    public List<Meal> getInitializedMeals(List<Meal> meals) {
+        return meals
+                .stream()
+                .map(meal -> mealService.findById(meal.getId()))
+                .collect(Collectors.toList());
     }
 }
 

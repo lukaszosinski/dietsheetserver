@@ -35,11 +35,7 @@ public class ProductController {
 
     @PostMapping(value = "/product")
     public ResponseEntity<Product> createProduct(@RequestBody Product product, @AuthenticationPrincipal User user) {
-        if (productService.isExist(product)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        product.setOwner(user);
-        productService.save(product);
+        productService.save(product, user);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
@@ -51,7 +47,6 @@ public class ProductController {
         Product productToUpdate = productService.findById(id);
         productToUpdate.setName(product.getName());
         productToUpdate.updateSummary(product.getSummary());
-
         productService.update(productToUpdate);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

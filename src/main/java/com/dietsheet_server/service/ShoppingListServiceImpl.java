@@ -45,6 +45,12 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
+    public void save(ShoppingList shoppingList, User owner) {
+        shoppingList.setOwner(owner);
+        save(shoppingList);
+    }
+
+    @Override
     public void update(ShoppingList shoppingList) {
         shoppingListDAO.update(shoppingList);
     }

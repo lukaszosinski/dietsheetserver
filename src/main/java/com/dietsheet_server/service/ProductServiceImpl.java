@@ -6,6 +6,7 @@ import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,16 @@ public class ProductServiceImpl implements Service<Product>{
 
     @Override
     public void save(Product product) {
+        if(isExist(product)) {
+            throw new DataIntegrityViolationException("Resource exists");
+        }
         productDAO.save(product);
+    }
+
+    @Override
+    public void save(Product product, User owner) {
+        product.setOwner(owner);
+        save(product);
     }
 
     @Override

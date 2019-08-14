@@ -2,6 +2,7 @@ package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "summary")
@@ -109,5 +110,23 @@ public class Summary {
 
     public void setRoughage(int roughage) {
         this.roughage = roughage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Summary)) return false;
+        Summary summary = (Summary) o;
+        return getId() == summary.getId() &&
+                getKcal() == summary.getKcal() &&
+                getProteins() == summary.getProteins() &&
+                getCarbs() == summary.getCarbs() &&
+                getFat() == summary.getFat() &&
+                getRoughage() == summary.getRoughage();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getKcal(), getProteins(), getCarbs(), getFat(), getRoughage());
     }
 }
