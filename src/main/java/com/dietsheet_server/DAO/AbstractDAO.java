@@ -18,7 +18,11 @@ public abstract class AbstractDAO< T > {
     }
 
     public T get( long id ){
-        return entityManager.find(clazz, id);
+        T entity = entityManager.find(clazz, id);
+        if(entity != null) {
+            initializeEntityChildren(entity);
+        }
+        return entity;
     }
 
     public List< T > getAll(){
@@ -64,6 +68,6 @@ public abstract class AbstractDAO< T > {
         entityManager.createQuery("delete from " + clazz.getName()).executeUpdate();
     }
 
-
+    public abstract void initializeEntityChildren(T entity);
 
 }

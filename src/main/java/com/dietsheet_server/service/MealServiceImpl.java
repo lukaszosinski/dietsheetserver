@@ -24,11 +24,6 @@ public class MealServiceImpl implements Service<Meal> {
         if(meal == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(meal.getSummary());
-        Hibernate.initialize(meal.getIngredients());
-        meal.getIngredients().forEach(ingredient ->
-            Hibernate.initialize(ingredient.getProduct())
-        );
         return meal;
     }
 

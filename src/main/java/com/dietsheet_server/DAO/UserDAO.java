@@ -33,4 +33,9 @@ public class UserDAO extends AbstractDAO<User> {
             return null;
         }
     }
+
+    @Override
+    public void initializeEntityChildren(User user) {
+        //No children to initialize so far
+    }
 }

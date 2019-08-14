@@ -25,7 +25,6 @@ public class ProductServiceImpl implements Service<Product>{
         if(product == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(product.getSummary());
         return product;
     }
 

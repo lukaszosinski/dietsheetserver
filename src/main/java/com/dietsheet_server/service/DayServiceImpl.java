@@ -24,8 +24,7 @@ public class DayServiceImpl implements Service<Day> {
         if(day == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(day.getMeals());
-        Hibernate.initialize(day.getSummary());
+
         return day;
     }
 

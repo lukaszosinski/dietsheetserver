@@ -11,12 +11,10 @@ public class ShoppingListDAO extends AbstractDAO<ShoppingList> {
     }
 
     @Override
-    public ShoppingList get(long id) {
-        ShoppingList shoppingList = super.get(id);
+    public void initializeEntityChildren(ShoppingList shoppingList) {
         Hibernate.initialize(shoppingList.getItems());
         shoppingList.getItems().forEach(item ->
                 Hibernate.initialize(item.getProduct())
         );
-        return shoppingList;
     }
 }
