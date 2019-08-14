@@ -21,9 +21,6 @@ public class MealController {
     @GetMapping(value = "/meal")
     public ResponseEntity<List<Meal>> getAllMeals(@AuthenticationPrincipal User user) {
         List<Meal> meals = mealService.findAll(user);
-        if(meals.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(meals, HttpStatus.OK);
     }
 

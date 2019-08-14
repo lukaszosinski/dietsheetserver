@@ -20,9 +20,6 @@ public class ProductController {
     @GetMapping(value = "/product")
     public ResponseEntity<List<Product>> getAllProducts(@AuthenticationPrincipal User user) {
         List<Product> products = productService.findAll(user);
-        if(products.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

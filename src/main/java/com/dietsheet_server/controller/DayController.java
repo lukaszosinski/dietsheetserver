@@ -21,9 +21,6 @@ public class DayController {
     @GetMapping(value = "/day")
     public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
         List<Day> days = dayService.findAll(user);
-        if(days.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
