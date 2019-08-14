@@ -24,8 +24,7 @@ public class ShoppingListController {
 
     @GetMapping(value = "/shoppingListForDays")
     public ResponseEntity<ShoppingList> generateShoppingList(@RequestParam List<Long> dayIds) {
-        List<Day> days = dayService.findAll(dayIds);
-        ShoppingList shoppingList = shoppingListService.generateShoppingListForDays(days);
+        ShoppingList shoppingList = shoppingListService.generateShoppingListForDays(dayIds);
         return new ResponseEntity<>(shoppingList, HttpStatus.OK);
     }
 
@@ -38,9 +37,6 @@ public class ShoppingListController {
     @GetMapping(value = "/shoppingList")
     public ResponseEntity<List<ShoppingList>> getAllShoppingLists(@AuthenticationPrincipal User user) {
         List<ShoppingList> shoppingLists = shoppingListService.findAll(user);
-        if(shoppingLists.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(shoppingLists, HttpStatus.OK);
     }
 
@@ -48,9 +44,6 @@ public class ShoppingListController {
     public ResponseEntity<ShoppingList> saveShoppingList(
             @RequestBody ShoppingList shoppingList,
             @AuthenticationPrincipal User user) {
-        if (shoppingListService.isExist(shoppingList)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
         shoppingList.setOwner(user);
         shoppingListService.save(shoppingList);
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);

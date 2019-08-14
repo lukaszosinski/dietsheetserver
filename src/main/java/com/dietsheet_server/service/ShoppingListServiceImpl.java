@@ -1,5 +1,6 @@
 package com.dietsheet_server.service;
 
+import com.dietsheet_server.DAO.DayDAO;
 import com.dietsheet_server.DAO.ShoppingListDAO;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingListBuilder;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
@@ -7,6 +8,7 @@ import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Day;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,21 +24,23 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     @Autowired
     ShoppingListDAO shoppingListDAO;
 
+    @Autowired
+    Service<Day> dayService;
+
     @Override
     public ShoppingList findById(long id) {
         ShoppingList shoppingList = shoppingListDAO.get(id);
         if(shoppingList == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(shoppingList.getItems());
-        shoppingList.getItems().forEach(item ->
-                Hibernate.initialize(item.getProduct())
-        );
         return shoppingList;
     }
 
     @Override
     public void save(ShoppingList shoppingList) {
+        if(isExist(shoppingList)) {
+            throw new DataIntegrityViolationException("Resource exists");
+        }
         shoppingListDAO.save(shoppingList);
     }
 
@@ -76,8 +80,9 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public ShoppingList generateShoppingListForDays(List<Day> dayList) {
-        dayList.forEach(day ->
+    public ShoppingList generateShoppingListForDays(List<Long> dayIds) {
+        List<Day> days = dayService.findAll(dayIds);
+        days.forEach(day ->
            day.getMeals().forEach(meal ->
                    meal.getIngredients().forEach(ingredient ->
                            shoppingListBuilder.addItem(ingredient)))
