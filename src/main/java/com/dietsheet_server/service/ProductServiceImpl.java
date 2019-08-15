@@ -2,13 +2,12 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.ProductDAO;
+import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,6 +18,9 @@ public class ProductServiceImpl implements Service<Product>{
 
     @Autowired
     private ProductDAO productDAO;
+
+    @Autowired
+    private DietEntityCascadeUpdater dietEntityCascadeUpdater;
 
 
     @Override
@@ -50,6 +52,8 @@ public class ProductServiceImpl implements Service<Product>{
         productToUpdate.setName(productUpdateData.getName());
         productToUpdate.updateSummary(productUpdateData.getSummary());
         productDAO.update(productToUpdate);
+        dietEntityCascadeUpdater.cascadeUpdateParents(productToUpdate);
+
     }
 
     @Override

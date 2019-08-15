@@ -41,6 +41,11 @@ public class Day extends DietEntity {
     }
 
     @Override
+    public List<DietEntity> getParents() {
+        return null;
+    }
+
+    @Override
     public void recalculateSummary() {
         Summary newSummary = new Summary();
         for (Meal meal: meals

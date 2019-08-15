@@ -1,5 +1,6 @@
 package com.dietsheet_server.model.diet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,6 +25,11 @@ public class Ingredient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="product_id")
     private Product product;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="meal_id")
+    private Meal meal;
 
     @Column(name = "amount")
     private int amount;
