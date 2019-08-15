@@ -6,7 +6,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 
 @Component("productDAO")
-public class ProductDAO extends AbstractDAO<Product> {
+public class ProductDAO extends AbstractSecuredOwnedEntityDAO<Product> {
     public ProductDAO() {
         setClazz(Product.class);
     }
@@ -15,4 +15,5 @@ public class ProductDAO extends AbstractDAO<Product> {
     public void initializeEntityChildren(Product product) {
         Hibernate.initialize(product.getSummary());
     }
+
 }

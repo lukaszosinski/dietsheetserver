@@ -53,8 +53,10 @@ public class DayServiceImpl implements Service<Day> {
     }
 
     @Override
-    public void update(Day day) {
-        dayDAO.update(day);
+    public void update(Day dayUpdateData, long id) {
+        Day dayToUpdate = findById(id);
+        dayToUpdate.setMeals(getInitializedMeals(dayUpdateData.getMeals()));
+        dayDAO.update(dayUpdateData);
     }
 
     @Override
@@ -83,7 +85,12 @@ public class DayServiceImpl implements Service<Day> {
 
     @Override
     public boolean isExist(Day day) {
-        return dayDAO.get(day.getId()) != null;
+        try {
+            dayDAO.get(day.getId());
+            return true;
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
     }
 
     public List<Meal> getInitializedMeals(List<Meal> meals) {

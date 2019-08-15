@@ -1,35 +1,41 @@
 package com.dietsheet_server.DAO;
 
+import com.dietsheet_server.model.OwnedEntity;
 import com.dietsheet_server.model.User;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-public abstract class AbstractDAO< T > {
-    protected Class< T > clazz;
+public abstract class AbstractSecuredOwnedEntityDAO<T extends OwnedEntity> {
+    protected Class<T> clazz;
 
     @PersistenceContext
     protected EntityManager entityManager;
 
-
-    public final void setClazz( Class< T > clazzToSet ){
+    protected void setClazz( Class<T> clazzToSet ){
         this.clazz = clazzToSet;
     }
 
+    @PostAuthorize("returnObject.getOwner().getUsername() == principal.username")
     public T get( long id ){
         T entity = entityManager.find(clazz, id);
-        if(entity != null) {
-            initializeEntityChildren(entity);
+        if(entity == null) {
+            throw new ResourceNotFoundException();
         }
+        initializeEntityChildren(entity);
         return entity;
     }
 
-    public List< T > getAll(){
+    public List<T> getAll(){
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
 
-    public List< T > getAllByUser(User user) {
+    public List<T> getAllByUser(User user) {
         String hql = "from " + clazz.getName() + " c where c.owner = :owner";
 
         return entityManager
@@ -38,7 +44,8 @@ public abstract class AbstractDAO< T > {
                 .getResultList();
     }
 
-    public List< T > getByIds(List<Long> ids) {
+    @PostFilter("filterObject.getOwner().getUsername() == principal.username")
+    public List<T> getByIds(List<Long> ids) {
         String hql = "from " + clazz.getName() + " c where c.id IN(:ids)";
 
         return entityManager
@@ -47,19 +54,19 @@ public abstract class AbstractDAO< T > {
                 .getResultList();
     }
 
-    public void save( T entity ) {
+    public void save(T entity) {
         entityManager.persist(entity);
     }
 
-    public void update( T entity ){
+    public void update(T entity){
         entityManager.merge(entity);
     }
 
-    public void delete( T entity ){
+    public void delete(T entity){
         entityManager.remove(entityManager.merge(entity));
     }
 
-    public void delete( long entityId ) {
+    public void delete(long entityId) {
         T entity = get( entityId );
         delete( entity );
     }

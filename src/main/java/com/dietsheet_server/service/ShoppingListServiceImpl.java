@@ -51,8 +51,10 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public void update(ShoppingList shoppingList) {
-        shoppingListDAO.update(shoppingList);
+    public void update(ShoppingList shoppingListUpdateData, long id) {
+        ShoppingList shoppingListToUpdate = findById(id);
+        shoppingListToUpdate.updateItems(shoppingListUpdateData.getItems());
+        shoppingListDAO.update(shoppingListToUpdate);
     }
 
     @Override

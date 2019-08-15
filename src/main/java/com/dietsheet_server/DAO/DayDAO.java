@@ -6,7 +6,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 
 @Component("dayDAO")
-public class DayDAO extends AbstractDAO<Day> {
+public class DayDAO extends AbstractSecuredOwnedEntityDAO<Day> {
     public DayDAO() {
         setClazz(Day.class);
     }

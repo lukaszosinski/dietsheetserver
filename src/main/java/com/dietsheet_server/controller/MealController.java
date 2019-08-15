@@ -39,16 +39,10 @@ public class MealController {
     }
 
     @PutMapping(value = "/meal/{id}")
-    public ResponseEntity<Meal> updateMeal(@PathVariable("id") long id, @RequestBody Meal meal) {
-        Meal mealToUpdate = mealService.findById(id);
-
-        mealToUpdate.setName(meal.getName());
-        mealToUpdate.updateIngredients(meal.getIngredients());
-        mealService.update(mealToUpdate);
-        mealToUpdate = mealService.findById(mealToUpdate.getId());
-        mealToUpdate.recalculateSummary();
-        mealService.update(mealToUpdate);
-
+    public ResponseEntity<Meal> updateMeal(
+            @PathVariable("id") long id,
+            @RequestBody Meal mealUpdateData) {
+        mealService.update(mealUpdateData, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

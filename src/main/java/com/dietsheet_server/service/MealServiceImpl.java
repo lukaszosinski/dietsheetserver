@@ -55,8 +55,15 @@ public class MealServiceImpl implements Service<Meal> {
     }
 
     @Override
-    public void update(Meal meal) {
-        mealDAO.update(meal);
+    public void update(Meal mealUpdateData, long id) {
+        Meal mealToUpdate = findById(id);
+        mealToUpdate.setName(mealUpdateData.getName());
+        mealToUpdate.updateIngredients(
+                getInitializedIngredients(
+                    mealUpdateData.getIngredients()
+        ));
+        mealToUpdate.recalculateSummary();
+        mealDAO.update(mealUpdateData);
     }
 
 
@@ -77,8 +84,6 @@ public class MealServiceImpl implements Service<Meal> {
 
     @Override
     public List<Meal> findAll(User user) {
-        List<Meal> mealList = mealDAO.getAllByUser(user);
-        mealList.forEach(meal -> Hibernate.initialize(meal.getSummary()));
         return mealDAO.getAllByUser(user);
     }
 
@@ -89,7 +94,12 @@ public class MealServiceImpl implements Service<Meal> {
 
     @Override
     public boolean isExist(Meal meal) {
-        return mealDAO.get(meal.getId()) != null;
+        try {
+            mealDAO.get(meal.getId());
+            return true;
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
     }
 
     private List<Ingredient> getInitializedIngredients(List<Ingredient> ingredients) {

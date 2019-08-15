@@ -39,15 +39,10 @@ public class DayController {
     }
 
     @PutMapping(value = "/day/{id}")
-    public ResponseEntity<Day> updateDay(@PathVariable("id") long id, @RequestBody Day day) {
-
-        Day dayToUpdate = dayService.findById(id);
-        dayToUpdate.setMeals(day.getMeals());
-        dayService.update(dayToUpdate);
-        dayToUpdate = dayService.findById(dayToUpdate.getId());
-        dayToUpdate.recalculateSummary();
-        dayService.update(dayToUpdate);
-
+    public ResponseEntity<Day> updateDay(
+            @PathVariable("id") long id,
+            @RequestBody Day dayUpdateData) {
+        dayService.update(dayUpdateData, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

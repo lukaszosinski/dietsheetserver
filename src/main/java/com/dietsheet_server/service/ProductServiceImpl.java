@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -44,8 +45,11 @@ public class ProductServiceImpl implements Service<Product>{
     }
 
     @Override
-    public void update(Product product) {
-        productDAO.update(product);
+    public void update(Product productUpdateData, long id) {
+        Product productToUpdate = findById(id);
+        productToUpdate.setName(productUpdateData.getName());
+        productToUpdate.updateSummary(productUpdateData.getSummary());
+        productDAO.update(productToUpdate);
     }
 
     @Override
@@ -75,6 +79,11 @@ public class ProductServiceImpl implements Service<Product>{
 
     @Override
     public boolean isExist(Product product) {
-        return productDAO.get(product.getId()) != null;
+        try {
+            productDAO.get(product.getId());
+            return true;
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
     }
 }

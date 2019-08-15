@@ -39,12 +39,8 @@ public class ProductController {
     @PutMapping(value = "/product/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable("id") long id,
-            @RequestBody Product product) {
-
-        Product productToUpdate = productService.findById(id);
-        productToUpdate.setName(product.getName());
-        productToUpdate.updateSummary(product.getSummary());
-        productService.update(productToUpdate);
+            @RequestBody Product productUpdateData) {
+        productService.update(productUpdateData, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

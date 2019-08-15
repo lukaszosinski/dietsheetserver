@@ -10,7 +10,7 @@ public abstract class DietEntity extends OwnedEntity {
     @OneToOne(cascade =
             CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     @JoinColumn(
             name = "summary_id",
             referencedColumnName = "id",
