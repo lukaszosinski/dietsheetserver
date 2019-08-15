@@ -1,6 +1,9 @@
 package com.dietsheet_server.model.diet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,10 +12,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "meal")
 public class Meal extends DietEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -34,30 +39,6 @@ public class Meal extends DietEntity {
     public Meal() {
         super();
         setSummary(new Summary());
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
     }
 
     public void updateIngredients(List<Ingredient> newIngredients) {

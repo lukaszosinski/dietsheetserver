@@ -1,14 +1,19 @@
 package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode
 @Table(name = "summary")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Summary {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -62,71 +67,5 @@ public class Summary {
                 (int) (this.getFat()         + summaryToAdd.getFat()      * multiplier),
                 (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
         );
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getKcal() {
-        return kcal;
-    }
-
-    public void setKcal(int kcal) {
-        this.kcal = kcal;
-    }
-
-    public int getProteins() {
-        return proteins;
-    }
-
-    public void setProteins(int proteins) {
-        this.proteins = proteins;
-    }
-
-    public int getCarbs() {
-        return carbs;
-    }
-
-    public void setCarbs(int carbs) {
-        this.carbs = carbs;
-    }
-
-    public int getFat() {
-        return fat;
-    }
-
-    public void setFat(int fat) {
-        this.fat = fat;
-    }
-
-    public int getRoughage() {
-        return roughage;
-    }
-
-    public void setRoughage(int roughage) {
-        this.roughage = roughage;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Summary)) return false;
-        Summary summary = (Summary) o;
-        return getId() == summary.getId() &&
-                getKcal() == summary.getKcal() &&
-                getProteins() == summary.getProteins() &&
-                getCarbs() == summary.getCarbs() &&
-                getFat() == summary.getFat() &&
-                getRoughage() == summary.getRoughage();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getKcal(), getProteins(), getCarbs(), getFat(), getRoughage());
     }
 }

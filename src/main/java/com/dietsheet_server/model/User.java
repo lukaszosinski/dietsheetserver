@@ -2,6 +2,9 @@ package com.dietsheet_server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode
 @Table(name = "[user]")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,18 +30,6 @@ public class User implements UserDetails {
 
     @Column(name = "token")
     private String token;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @JsonProperty
     public void setPassword(String password) {
@@ -60,7 +53,6 @@ public class User implements UserDetails {
         return password;
     }
 
-
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
@@ -82,13 +74,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

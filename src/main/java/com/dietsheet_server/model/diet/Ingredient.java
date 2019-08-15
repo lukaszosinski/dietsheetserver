@@ -1,14 +1,22 @@
 package com.dietsheet_server.model.diet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Table(name = "ingredient")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ingredient {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -20,50 +28,8 @@ public class Ingredient {
     @Column(name = "amount")
     private int amount;
 
-    public Ingredient() {
-    }
-
     public Ingredient(Product product, int amount) {
         this.product = product;
         this.amount = amount;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ingredient)) return false;
-        Ingredient that = (Ingredient) o;
-        return getId() == that.getId() &&
-                getAmount() == that.getAmount() &&
-                Objects.equals(getProduct(), that.getProduct());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getProduct(), getAmount());
     }
 }

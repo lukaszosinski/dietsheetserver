@@ -4,12 +4,18 @@ package com.dietsheet_server.model.diet.shoppinglist;
 import com.dietsheet_server.model.OwnedEntity;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "shoppinglist")
 public class ShoppingList extends OwnedEntity {
@@ -25,18 +31,7 @@ public class ShoppingList extends OwnedEntity {
     @JoinColumn(name = "shoppinglist_id")
     List<Ingredient> items = new ArrayList<>();
 
-    public ShoppingList() {
-    }
-
     public ShoppingList(List<Ingredient> items) {
-        this.items = items;
-    }
-
-    public List<Ingredient> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Ingredient> items) {
         this.items = items;
     }
 
@@ -44,13 +39,4 @@ public class ShoppingList extends OwnedEntity {
         this.items.clear();
         this.items.addAll(newItems);
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 }

@@ -1,5 +1,8 @@
 package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import javax.persistence.*;
@@ -8,14 +11,15 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "day")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Day extends DietEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
@@ -36,35 +40,6 @@ public class Day extends DietEntity {
         this.date = LocalDate.now();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public List<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
-    }
-
-    public void updateMeals(Set<Meal> newMeals) {
-        this.meals.clear();
-        this.meals.addAll(newMeals);
-    }
-
     @Override
     public void recalculateSummary() {
         Summary newSummary = new Summary();
@@ -74,20 +49,5 @@ public class Day extends DietEntity {
              newSummary = newSummary.add(summaryToAdd);
         }
         this.updateSummary(newSummary);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Day)) return false;
-        Day day = (Day) o;
-        return getId() == day.getId() &&
-                Objects.equals(getDate(), day.getDate()) &&
-                Objects.equals(getMeals(), day.getMeals());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getDate(), getMeals());
     }
 }
