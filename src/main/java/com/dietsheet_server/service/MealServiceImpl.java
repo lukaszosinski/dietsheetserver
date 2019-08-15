@@ -7,7 +7,6 @@ import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,7 +19,6 @@ public class MealServiceImpl implements Service<Meal> {
     private MealDAO mealDAO;
 
     @Override
-    @PostAuthorize("returnObject.getOwner().getUsername() == principal.getUsername()")
     public Meal findById(long id) {
         Meal meal = mealDAO.get(id);
         if(meal == null) {
@@ -44,10 +42,6 @@ public class MealServiceImpl implements Service<Meal> {
         mealDAO.update(meal);
     }
 
-    @Override
-    public void deleteById(long id) {
-        mealDAO.delete(id);
-    }
 
     @Override
     public void delete(Meal meal) {
@@ -57,6 +51,11 @@ public class MealServiceImpl implements Service<Meal> {
     @Override
     public List<Meal> findAll() {
         return mealDAO.getAll();
+    }
+
+    @Override
+    public List<Meal> findAll(List<Long> ids) {
+        return null;
     }
 
     @Override

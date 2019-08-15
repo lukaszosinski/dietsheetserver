@@ -1,8 +1,6 @@
 package com.dietsheet_server.model.diet;
 
-import com.dietsheet_server.model.diet.Product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +9,6 @@ import javax.persistence.*;
 public class Ingredient {
 
     @Id
-    @Column(name = "ingredient_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 

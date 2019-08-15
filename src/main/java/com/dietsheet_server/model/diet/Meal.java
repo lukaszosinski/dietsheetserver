@@ -13,7 +13,6 @@ import java.util.Set;
 public class Meal extends DietEntity {
 
     @Id
-    @Column(name = "meal_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -33,9 +32,7 @@ public class Meal extends DietEntity {
 
     public Meal() {
         super();
-        if(getSummary() == null) {
-            setSummary(new Summary());
-        }
+        setSummary(new Summary());
     }
 
     public long getId() {

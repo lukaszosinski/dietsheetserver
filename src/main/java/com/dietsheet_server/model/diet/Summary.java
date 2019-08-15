@@ -8,9 +8,7 @@ import javax.persistence.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Summary {
 
-
     @Id
-    @Column(name = "summary_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
