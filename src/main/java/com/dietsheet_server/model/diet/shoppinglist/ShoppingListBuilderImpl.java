@@ -37,12 +37,13 @@ public class ShoppingListBuilderImpl implements ShoppingListBuilder {
 
     @Override
     public ShoppingList build() {
-        return new ShoppingList(getIngredientList());
+        return new ShoppingList(getShoppingListItems());
     }
 
-    private List<Ingredient> getIngredientList() {
-        final List<Ingredient> ingredientList = new ArrayList<>();
-        ingredientAmountMap.forEach((product, amount) -> ingredientList.add(new Ingredient(product, amount)));
+    private List<ShoppingListItem> getShoppingListItems() {
+        final List<ShoppingListItem> ingredientList = new ArrayList<>();
+        ingredientAmountMap.forEach((product, amount) -> ingredientList.add(new ShoppingListItem(product.getName(), amount)));
         return ingredientList;
     }
 }
+

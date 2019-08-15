@@ -13,8 +13,5 @@ public class ShoppingListDAO extends AbstractOwnedEntitySecuredDAO<ShoppingList>
     @Override
     public void initializeEntityChildren(ShoppingList shoppingList) {
         Hibernate.initialize(shoppingList.getItems());
-        shoppingList.getItems().forEach(item ->
-                Hibernate.initialize(item.getProduct())
-        );
     }
 }

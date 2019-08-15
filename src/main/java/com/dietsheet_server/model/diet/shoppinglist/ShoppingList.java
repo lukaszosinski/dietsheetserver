@@ -31,13 +31,13 @@ public class ShoppingList extends OwnedEntity {
             orphanRemoval = true
     )
     @JoinColumn(name = "shoppinglist_id")
-    List<Ingredient> items = new ArrayList<>();
+    List<ShoppingListItem> items = new ArrayList<>();
 
-    public ShoppingList(List<Ingredient> items) {
+    public ShoppingList(List<ShoppingListItem> items) {
         this.items = items;
     }
 
-    public void updateItems(List<Ingredient> newItems) {
+    public void updateItems(List<ShoppingListItem> newItems) {
         this.items.clear();
         this.items.addAll(newItems);
     }
