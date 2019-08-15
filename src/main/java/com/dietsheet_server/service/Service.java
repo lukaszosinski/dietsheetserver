@@ -1,26 +1,25 @@
 package com.dietsheet_server.service;
 
-import com.dietsheet_server.model.OwnedEntity;
 import com.dietsheet_server.model.User;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
-
 import java.util.List;
 
-public interface Service<T extends OwnedEntity> {
+public interface Service<T> {
 
-    @PostAuthorize("returnObject.getOwner().getUsername() == principal.getUsername()")
+
     T findById(long id);
 
     void save(T object);
 
-    void update(T object);
+    void save(T object, User owner);
+
+    void update(T object, long id);
 
     void delete(T entity);
 
+    void delete(long id);
+
     List<T> findAll();
 
-    @PostFilter("filterObject.getOwner().getUsername() == principal.username")
     List<T> findAll(List<Long> ids);
 
     List<T> findAll(User user);

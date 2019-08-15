@@ -29,11 +29,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public ShoppingList findById(long id) {
-        ShoppingList shoppingList = shoppingListDAO.get(id);
-        if(shoppingList == null) {
-            throw new ResourceNotFoundException();
-        }
-        return shoppingList;
+        return shoppingListDAO.get(id);
     }
 
     @Override
@@ -45,13 +41,27 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public void update(ShoppingList shoppingList) {
-        shoppingListDAO.update(shoppingList);
+    public void save(ShoppingList shoppingList, User owner) {
+        shoppingList.setOwner(owner);
+        save(shoppingList);
+    }
+
+    @Override
+    public void update(ShoppingList shoppingListUpdateData, long id) {
+        ShoppingList shoppingListToUpdate = findById(id);
+        shoppingListToUpdate.updateItems(shoppingListUpdateData.getItems());
+        shoppingListDAO.update(shoppingListToUpdate);
     }
 
     @Override
     public void delete(ShoppingList shoppingList) {
         shoppingListDAO.delete(shoppingList);
+    }
+
+    @Override
+    public void delete(long id) {
+        ShoppingList shoppingList = findById(id);
+        delete(shoppingList);
     }
 
     @Override
@@ -76,7 +86,12 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public boolean isExist(ShoppingList shoppingList) {
-        return shoppingListDAO.get(shoppingList.getId()) != null;
+        try {
+            shoppingListDAO.get(shoppingList.getId());
+            return true;
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
     }
 
     @Override

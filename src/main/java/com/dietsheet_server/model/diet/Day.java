@@ -1,23 +1,25 @@
 package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import java.util.HashSet;
-
-import java.util.Set;
+import java.util.*;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "day")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Day extends DietEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
@@ -27,7 +29,7 @@ public class Day extends DietEntity {
             joinColumns = @JoinColumn(name = "day_id"),
             inverseJoinColumns = @JoinColumn(name = "meal_id")
     )
-    private Set<Meal> meals = new HashSet<>();
+    private List<Meal> meals = new ArrayList<>();
 
     public Day() {
         super();
@@ -36,35 +38,6 @@ public class Day extends DietEntity {
         }
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Set<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(Set<Meal> meals) {
-        this.meals = meals;
-    }
-
-    public void updateMeals(Set<Meal> newMeals) {
-        this.meals.clear();
-        this.meals.addAll(newMeals);
     }
 
     @Override

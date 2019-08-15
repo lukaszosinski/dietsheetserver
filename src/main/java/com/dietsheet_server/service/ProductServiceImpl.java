@@ -6,7 +6,9 @@ import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,23 +27,40 @@ public class ProductServiceImpl implements Service<Product>{
         if(product == null) {
             throw new ResourceNotFoundException();
         }
-        Hibernate.initialize(product.getSummary());
         return product;
     }
 
     @Override
     public void save(Product product) {
+        if(isExist(product)) {
+            throw new DataIntegrityViolationException("Resource exists");
+        }
         productDAO.save(product);
     }
 
     @Override
-    public void update(Product product) {
-        productDAO.update(product);
+    public void save(Product product, User owner) {
+        product.setOwner(owner);
+        save(product);
+    }
+
+    @Override
+    public void update(Product productUpdateData, long id) {
+        Product productToUpdate = findById(id);
+        productToUpdate.setName(productUpdateData.getName());
+        productToUpdate.updateSummary(productUpdateData.getSummary());
+        productDAO.update(productToUpdate);
     }
 
     @Override
     public void delete(Product product) {
         productDAO.delete(product);
+    }
+
+    @Override
+    public void delete(long id) {
+        Product product = findById(id);
+        delete(product);
     }
 
     @Override
@@ -66,6 +85,11 @@ public class ProductServiceImpl implements Service<Product>{
 
     @Override
     public boolean isExist(Product product) {
-        return productDAO.get(product.getId()) != null;
+        try {
+            productDAO.get(product.getId());
+            return true;
+        } catch (ResourceNotFoundException e) {
+            return false;
+        }
     }
 }

@@ -1,8 +1,8 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.DAO.UserDAO;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.security.UserAuthenticationService;
+import com.dietsheet_server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,11 @@ public class SessionController {
     UserAuthenticationService userAuthenticationService;
 
     @Autowired
-    UserDAO userDAO;
+    UserService userService;
 
-    @PostMapping("/user")
+    @PostMapping("/user")        
     public ResponseEntity<User> createUser(@RequestBody final User user) {
-        userDAO.save(user);
+        userService.save(user);
         return createSession(user);
     }
 

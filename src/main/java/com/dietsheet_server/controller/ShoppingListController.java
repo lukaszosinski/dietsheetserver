@@ -44,25 +44,21 @@ public class ShoppingListController {
     public ResponseEntity<ShoppingList> saveShoppingList(
             @RequestBody ShoppingList shoppingList,
             @AuthenticationPrincipal User user) {
-        shoppingList.setOwner(user);
-        shoppingListService.save(shoppingList);
+        shoppingListService.save(shoppingList, user);
         return new ResponseEntity<>(shoppingList, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/shoppingList/{id}")
     public ResponseEntity<ShoppingList> updateShoppingList(
             @PathVariable("id") long id,
-            @RequestBody ShoppingList shoppingList) {
-        ShoppingList shoppingListToUpdate = shoppingListService.findById(id);
-        shoppingListToUpdate.updateItems(shoppingList.getItems());
-        shoppingListService.update(shoppingListToUpdate);
+            @RequestBody ShoppingList shoppingListUpdateData) {
+        shoppingListService.update(shoppingListUpdateData, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/shoppingList/{id}")
     public ResponseEntity<Day> deleteShoppingList(@PathVariable("id") long id) {
-        ShoppingList shoppingList = shoppingListService.findById(id);
-        shoppingListService.delete(shoppingList);
+        shoppingListService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

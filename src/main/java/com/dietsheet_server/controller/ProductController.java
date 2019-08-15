@@ -20,9 +20,6 @@ public class ProductController {
     @GetMapping(value = "/product")
     public ResponseEntity<List<Product>> getAllProducts(@AuthenticationPrincipal User user) {
         List<Product> products = productService.findAll(user);
-        if(products.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
@@ -35,24 +32,21 @@ public class ProductController {
 
     @PostMapping(value = "/product")
     public ResponseEntity<Product> createProduct(@RequestBody Product product, @AuthenticationPrincipal User user) {
-        if (productService.isExist(product)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        product.setOwner(user);
-        productService.save(product);
+        productService.save(product, user);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/product/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable("id") long id,
-            @RequestBody Product product) {
+            @RequestBody Product productUpdateData) {
+        productService.update(productUpdateData, id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-        Product productToUpdate = productService.findById(id);
-        productToUpdate.setName(product.getName());
-        productToUpdate.updateSummary(product.getSummary());
-
-        productService.update(productToUpdate);
+    @DeleteMapping(value = "/product/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
+        productService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -62,11 +56,6 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/product/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
-        Product product = productService.findById(id);
-        productService.delete(product);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+
 }
 

@@ -21,9 +21,6 @@ public class DayController {
     @GetMapping(value = "/day")
     public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
         List<Day> days = dayService.findAll(user);
-        if(days.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
@@ -31,19 +28,7 @@ public class DayController {
     public ResponseEntity<Day> createDay(
             @RequestBody Day day,
             @AuthenticationPrincipal User user) {
-
-        if (dayService.isExist(day)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        day.setOwner(user);
-        dayService.save(day);
-        if(day.getMeals().size() > 0) {
-            day = dayService.findById(day.getId());
-            day.recalculateSummary();
-            dayService.update(day);
-        }
-
+        dayService.save(day, user);
         return new ResponseEntity<>(day, HttpStatus.CREATED);
     }
 
@@ -54,22 +39,16 @@ public class DayController {
     }
 
     @PutMapping(value = "/day/{id}")
-    public ResponseEntity<Day> updateDay(@PathVariable("id") long id, @RequestBody Day day) {
-
-        Day dayToUpdate = dayService.findById(id);
-        dayToUpdate.setMeals(day.getMeals());
-        dayService.update(dayToUpdate);
-        dayToUpdate = dayService.findById(dayToUpdate.getId());
-        dayToUpdate.recalculateSummary();
-        dayService.update(dayToUpdate);
-
+    public ResponseEntity<Day> updateDay(
+            @PathVariable("id") long id,
+            @RequestBody Day dayUpdateData) {
+        dayService.update(dayUpdateData, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(value = "/day/{id}")
     public ResponseEntity<Day> deleteDay(@PathVariable("id") long id) {
-        Day day = dayService.findById(id);
-        dayService.delete(day);
+        dayService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
