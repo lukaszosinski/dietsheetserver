@@ -1,4 +1,5 @@
 package com.dietsheet_server.model.diet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class Day extends DietEntity {
         this.date = LocalDate.now();
     }
 
+    @JsonIgnore
     @Override
     public List<DietEntity> getParents() {
         return null;
