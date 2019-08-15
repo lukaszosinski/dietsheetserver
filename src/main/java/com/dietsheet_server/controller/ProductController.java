@@ -44,17 +44,18 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping(value = "/product/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
+        productService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping(value = "/product")
     public ResponseEntity<Product> deleteAllProducts() {
         productService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/product/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") long id) {
-        Product product = productService.findById(id);
-        productService.delete(product);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+
 }
 

@@ -58,8 +58,7 @@ public class ShoppingListController {
 
     @DeleteMapping(value = "/shoppingList/{id}")
     public ResponseEntity<Day> deleteShoppingList(@PathVariable("id") long id) {
-        ShoppingList shoppingList = shoppingListService.findById(id);
-        shoppingListService.delete(shoppingList);
+        shoppingListService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

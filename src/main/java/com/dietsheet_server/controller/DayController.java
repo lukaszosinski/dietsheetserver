@@ -48,8 +48,7 @@ public class DayController {
 
     @DeleteMapping(value = "/day/{id}")
     public ResponseEntity<Day> deleteDay(@PathVariable("id") long id) {
-        Day day = dayService.findById(id);
-        dayService.delete(day);
+        dayService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -58,6 +58,12 @@ public class ProductServiceImpl implements Service<Product>{
     }
 
     @Override
+    public void delete(long id) {
+        Product product = findById(id);
+        delete(product);
+    }
+
+    @Override
     public List<Product> findAll() {
         return productDAO.getAll();
     }

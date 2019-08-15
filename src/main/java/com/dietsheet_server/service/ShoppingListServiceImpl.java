@@ -29,11 +29,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public ShoppingList findById(long id) {
-        ShoppingList shoppingList = shoppingListDAO.get(id);
-        if(shoppingList == null) {
-            throw new ResourceNotFoundException();
-        }
-        return shoppingList;
+        return shoppingListDAO.get(id);
     }
 
     @Override
@@ -60,6 +56,12 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     @Override
     public void delete(ShoppingList shoppingList) {
         shoppingListDAO.delete(shoppingList);
+    }
+
+    @Override
+    public void delete(long id) {
+        ShoppingList shoppingList = findById(id);
+        delete(shoppingList);
     }
 
     @Override

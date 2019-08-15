@@ -16,6 +16,8 @@ public interface Service<T> {
 
     void delete(T entity);
 
+    void delete(long id);
+
     List<T> findAll();
 
     List<T> findAll(List<Long> ids);

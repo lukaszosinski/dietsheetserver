@@ -2,12 +2,10 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.MealDAO;
-import com.dietsheet_server.DAO.ProductDAO;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Product;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -70,6 +68,12 @@ public class MealServiceImpl implements Service<Meal> {
     @Override
     public void delete(Meal meal) {
         mealDAO.delete(meal);
+    }
+
+    @Override
+    public void delete(long id) {
+        Meal meal = findById(id);
+        delete(meal);
     }
 
     @Override

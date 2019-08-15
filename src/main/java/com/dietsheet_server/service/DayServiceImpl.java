@@ -2,7 +2,6 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.DayDAO;
-import com.dietsheet_server.DAO.MealDAO;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Meal;
@@ -63,6 +62,13 @@ public class DayServiceImpl implements Service<Day> {
     public void delete(Day day) {
        dayDAO.delete(day);
     }
+
+    @Override
+    public void delete(long id) {
+        Day day = findById(id);
+        delete(day);
+    }
+
     @Override
     public List<Day> findAll() {
         return dayDAO.getAll();

@@ -46,16 +46,15 @@ public class MealController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/meal")
-    public ResponseEntity<Meal> deleteAllMeals() {
-        mealService.deleteAll();
+    @DeleteMapping(value = "/meal/{id}")
+    public ResponseEntity<Meal> deleteMeal(@PathVariable("id") long id) {
+        mealService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping(value = "/meal/{id}")
-    public ResponseEntity<Meal> deleteMeal(@PathVariable("id") long id) {
-        Meal meal = mealService.findById(id);
-        mealService.delete(meal);
+    @DeleteMapping(value = "/meal")
+    public ResponseEntity<Meal> deleteAllMeals() {
+        mealService.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
