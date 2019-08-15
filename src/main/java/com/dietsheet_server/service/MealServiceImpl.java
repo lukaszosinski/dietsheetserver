@@ -61,7 +61,7 @@ public class MealServiceImpl implements Service<Meal> {
                     mealUpdateData.getIngredients()
         ));
         mealToUpdate.recalculateSummary();
-        mealDAO.update(mealUpdateData);
+        mealDAO.update(mealToUpdate);
     }
 
 

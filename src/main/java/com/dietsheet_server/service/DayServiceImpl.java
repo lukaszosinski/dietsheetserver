@@ -55,7 +55,8 @@ public class DayServiceImpl implements Service<Day> {
     public void update(Day dayUpdateData, long id) {
         Day dayToUpdate = findById(id);
         dayToUpdate.setMeals(getInitializedMeals(dayUpdateData.getMeals()));
-        dayDAO.update(dayUpdateData);
+        dayToUpdate.recalculateSummary();
+        dayDAO.update(dayToUpdate);
     }
 
     @Override

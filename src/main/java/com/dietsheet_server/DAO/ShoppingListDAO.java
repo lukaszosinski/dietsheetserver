@@ -5,7 +5,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 
 @Component("shoppingListDAO")
-public class ShoppingListDAO extends AbstractSecuredOwnedEntityDAO<ShoppingList> {
+public class ShoppingListDAO extends AbstractOwnedEntitySecuredDAO<ShoppingList> {
     public ShoppingListDAO() {
         setClazz(ShoppingList.class);
     }

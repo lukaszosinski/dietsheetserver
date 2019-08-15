@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-public abstract class AbstractSecuredOwnedEntityDAO<T extends OwnedEntity> {
+public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
     protected Class<T> clazz;
 
     @PersistenceContext
