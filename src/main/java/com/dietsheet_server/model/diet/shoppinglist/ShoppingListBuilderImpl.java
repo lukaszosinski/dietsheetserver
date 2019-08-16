@@ -41,9 +41,9 @@ public class ShoppingListBuilderImpl implements ShoppingListBuilder {
     }
 
     private List<ShoppingListItem> getShoppingListItems() {
-        final List<ShoppingListItem> ingredientList = new ArrayList<>();
-        ingredientAmountMap.forEach((product, amount) -> ingredientList.add(new ShoppingListItem(product.getName(), amount)));
-        return ingredientList;
+        final List<ShoppingListItem> shoppingListItems = new ArrayList<>();
+        ingredientAmountMap.forEach((product, amount) -> shoppingListItems.add(new ShoppingListItem(product.getName(), amount)));
+        return shoppingListItems;
     }
 }
 
