@@ -8,9 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -46,20 +44,17 @@ public class Meal extends DietEntity {
 
     public void updateIngredients(List<Ingredient> newIngredients) {
         ingredients.forEach(ingredient ->
-                ingredient.getProduct().removeIngredientReference(ingredient));
+                ingredient.getProduct().removeIngredient(ingredient));
         ingredients.clear();
         newIngredients.forEach(ingredient ->
-                ingredient.getProduct().addIngredientReference(ingredient));
+                ingredient.getProduct().addIngredient(ingredient));
         ingredients.addAll(newIngredients);
     }
 
     @JsonIgnore
     @Override
     public List<DietEntity> getParents() {
-        return days
-                .stream()
-                .map(day -> (DietEntity) day)
-                .collect(Collectors.toList());
+        return new ArrayList<>(days);
     }
 
     @Override

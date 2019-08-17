@@ -43,11 +43,11 @@ public class Product extends DietEntity {
                 .collect(Collectors.toList());
     }
 
-    public void addIngredientReference(Ingredient ingredient) {
+    public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
     }
 
-    public void removeIngredientReference(Ingredient ingredient) {
+    public void removeIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
     }
 
