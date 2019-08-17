@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.MealDAO;
+import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
@@ -24,6 +25,9 @@ public class MealServiceImpl implements Service<Meal> {
     @Autowired
     private Service<Product> productService;
 
+    @Autowired
+    private DietEntityCascadeUpdater dietEntityCascadeUpdater;
+
     @Override
 
     public Meal findById(long id) {
@@ -39,7 +43,7 @@ public class MealServiceImpl implements Service<Meal> {
         if(isExist(meal)) {
             throw new DataIntegrityViolationException("Resource exists");
         }
-        meal.setIngredients(getInitializedIngredients(meal.getIngredients()));
+        meal.updateIngredients(getInitializedIngredients(meal.getIngredients()));
         meal.recalculateSummary();
         mealDAO.save(meal);
     }
@@ -62,6 +66,7 @@ public class MealServiceImpl implements Service<Meal> {
         ));
         mealToUpdate.recalculateSummary();
         mealDAO.update(mealToUpdate);
+        dietEntityCascadeUpdater.cascadeUpdateParents(mealToUpdate);
     }
 
 

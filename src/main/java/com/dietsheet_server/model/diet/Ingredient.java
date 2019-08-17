@@ -1,5 +1,7 @@
 package com.dietsheet_server.model.diet;
 
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,9 +23,21 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH
+            })
     @JoinColumn(name ="product_id")
     private Product product;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="meal_id")
+    private Meal meal;
 
     @Column(name = "amount")
     private int amount;

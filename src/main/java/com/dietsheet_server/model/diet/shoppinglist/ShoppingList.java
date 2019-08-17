@@ -6,6 +6,7 @@ import com.dietsheet_server.model.diet.Ingredient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "shoppinglist")
 public class ShoppingList extends OwnedEntity {
@@ -29,13 +31,13 @@ public class ShoppingList extends OwnedEntity {
             orphanRemoval = true
     )
     @JoinColumn(name = "shoppinglist_id")
-    List<Ingredient> items = new ArrayList<>();
+    List<ShoppingListItem> items = new ArrayList<>();
 
-    public ShoppingList(List<Ingredient> items) {
+    public ShoppingList(List<ShoppingListItem> items) {
         this.items = items;
     }
 
-    public void updateItems(List<Ingredient> newItems) {
+    public void updateItems(List<ShoppingListItem> newItems) {
         this.items.clear();
         this.items.addAll(newItems);
     }
