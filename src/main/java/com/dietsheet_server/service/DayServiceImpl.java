@@ -106,6 +106,11 @@ public class DayServiceImpl implements DayService {
         return dayDAO.getByDateAndUser(date, user);
     }
 
+    @Override
+    public List<Day> findDaysFromTo(LocalDate dateFrom, LocalDate dateTo, User user) {
+        return dayDAO.getDaysFromToForUser(dateFrom, dateTo, user);
+    }
+
     public List<Meal> getInitializedMeals(List<Meal> meals) {
         return meals
                 .stream()

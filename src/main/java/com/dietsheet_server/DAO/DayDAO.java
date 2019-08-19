@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.time.LocalDate;
+import java.util.List;
 
 @Component("dayDAO")
 public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
@@ -31,9 +32,23 @@ public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Day> getDaysFromToForUser(LocalDate dateFrom, LocalDate dateTo, User user) {
+        String hql = "from " + clazz.getName() + " c where c.owner = :owner and c.date between :dateFrom and :dateTo";
+        return entityManager
+                .createQuery(hql)
+                .setParameter("owner", user)
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .getResultList();
+
+    }
+
+
     @Override
     public void initializeEntityChildren(Day day) {
         Hibernate.initialize(day.getMeals());
         Hibernate.initialize(day.getSummary());
     }
+
 }

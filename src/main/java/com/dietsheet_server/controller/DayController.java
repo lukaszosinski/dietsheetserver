@@ -20,9 +20,20 @@ public class DayController {
     @Autowired
     DayService dayService;
 
-    @GetMapping(value = "/day")
+    /*@GetMapping(value = "/day")
     public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
         List<Day> days = dayService.findAll(user);
+        return new ResponseEntity<>(days, HttpStatus.OK);
+    }*/
+
+    @GetMapping(value = "/day")
+    public ResponseEntity<List<Day>> getDaysFromDateToDate(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateFrom,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateTo,
+            @AuthenticationPrincipal User user) {
+        List<Day> days = dayService.findDaysFromTo(dateFrom, dateTo, user);
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
@@ -30,8 +41,7 @@ public class DayController {
     public ResponseEntity<Day>getDayByDate(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam LocalDate date,
-            @AuthenticationPrincipal User user
-            ) {
+            @AuthenticationPrincipal User user) {
         Day day = dayService.findByDate(date, user);
         return new ResponseEntity<>(day, HttpStatus.OK);
     }
