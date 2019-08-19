@@ -10,12 +10,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service("dayService")
 @Transactional
-public class DayServiceImpl implements Service<Day> {
+public class DayServiceImpl implements DayService {
 
     @Autowired
     private DayDAO dayDAO;
@@ -100,11 +101,17 @@ public class DayServiceImpl implements Service<Day> {
         }
     }
 
+    @Override
+    public Day findByDate(LocalDate date, User user) {
+        return dayDAO.getByDateAndUser(date, user);
+    }
+
     public List<Meal> getInitializedMeals(List<Meal> meals) {
         return meals
                 .stream()
                 .map(meal -> mealService.findById(meal.getId()))
                 .collect(Collectors.toList());
     }
+
 }
 
