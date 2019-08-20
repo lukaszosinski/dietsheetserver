@@ -1,6 +1,10 @@
 package com.dietsheet_server.model.diet;
+import com.dietsheet_server.serializer.LocalDateEpochDeserializer;
+import com.dietsheet_server.serializer.LocalDateEpochSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +27,8 @@ public class Day extends DietEntity {
     private long id;
 
     @Column(name = "date", nullable = false)
+    @JsonSerialize(using = LocalDateEpochSerializer.class)
+    @JsonDeserialize(using = LocalDateEpochDeserializer.class)
     private LocalDate date;
 
     @ManyToMany(fetch = FetchType.LAZY)
