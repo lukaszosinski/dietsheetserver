@@ -19,7 +19,10 @@ public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
     }
 
     public Day getByDateAndUser(LocalDate date, User user) {
-        String hql = "from " + clazz.getName() + " c where c.owner = :owner and c.date = :date";
+        String hql =
+                "from " +
+                clazz.getName() +
+                " c where c.owner = :owner and c.date = :date";
         Query query = entityManager.createQuery(hql);
         query.setParameter("owner", user);
         query.setParameter("date", date);
@@ -34,7 +37,10 @@ public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
 
     @SuppressWarnings("unchecked")
     public List<Day> getDaysFromToForUser(LocalDate dateFrom, LocalDate dateTo, User user) {
-        String hql = "from " + clazz.getName() + " c where c.owner = :owner and c.date between :dateFrom and :dateTo";
+        String hql =
+                "from "
+                + clazz.getName()
+                + " c where c.owner = :owner and c.date between :dateFrom and :dateTo";
         return entityManager
                 .createQuery(hql)
                 .setParameter("owner", user)
