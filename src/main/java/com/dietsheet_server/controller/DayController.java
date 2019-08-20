@@ -2,26 +2,42 @@ package com.dietsheet_server.controller;
 
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
-import com.dietsheet_server.service.Service;
+import com.dietsheet_server.service.DayService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 public class DayController {
 
     @Autowired
-    Service<Day> dayService;
+    DayService dayService;
 
     @GetMapping(value = "/day")
-    public ResponseEntity<List<Day>> getAllDays(@AuthenticationPrincipal User user) {
-        List<Day> days = dayService.findAll(user);
+    public ResponseEntity<List<Day>> getDaysByDateInRange(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateFrom,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateTo,
+            @AuthenticationPrincipal User user) {
+        List<Day> days = dayService.getDaysByDateInRange(dateFrom, dateTo, user);
         return new ResponseEntity<>(days, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/day/byDate")
+    public ResponseEntity<Day>getDayByDate(
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate date,
+            @AuthenticationPrincipal User user) {
+        Day day = dayService.getDayByDate(date, user);
+        return new ResponseEntity<>(day, HttpStatus.OK);
     }
 
     @PostMapping(value = "/day")
