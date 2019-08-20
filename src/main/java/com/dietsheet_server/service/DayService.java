@@ -9,6 +9,6 @@ import java.util.List;
 
 
 public interface DayService extends Service<Day> {
-    Day findByDateAndUser(LocalDate date, User user);
-    List<Day> findDaysFromToForUser(LocalDate dateFrom, LocalDate dateTo, User user);
+    Day getDayByDate(LocalDate date, User user);
+    List<Day> getDaysByDateInRange(LocalDate dateFrom, LocalDate dateTo, User user);
 }

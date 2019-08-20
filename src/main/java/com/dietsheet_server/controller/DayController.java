@@ -21,13 +21,13 @@ public class DayController {
     DayService dayService;
 
     @GetMapping(value = "/day")
-    public ResponseEntity<List<Day>> getDaysFromDateToDate(
+    public ResponseEntity<List<Day>> getDaysByDateInRange(
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam LocalDate dateFrom,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam LocalDate dateTo,
             @AuthenticationPrincipal User user) {
-        List<Day> days = dayService.findDaysFromToForUser(dateFrom, dateTo, user);
+        List<Day> days = dayService.getDaysByDateInRange(dateFrom, dateTo, user);
         return new ResponseEntity<>(days, HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class DayController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam LocalDate date,
             @AuthenticationPrincipal User user) {
-        Day day = dayService.findByDateAndUser(date, user);
+        Day day = dayService.getDayByDate(date, user);
         return new ResponseEntity<>(day, HttpStatus.OK);
     }
 

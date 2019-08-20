@@ -102,13 +102,13 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public Day findByDateAndUser(LocalDate date, User user) {
-        return dayDAO.getByDateAndUser(date, user);
+    public Day getDayByDate(LocalDate date, User user) {
+        return dayDAO.getDayByDate(date, user);
     }
 
     @Override
-    public List<Day> findDaysFromToForUser(LocalDate dateFrom, LocalDate dateTo, User user) {
-        return dayDAO.getDaysFromToForUser(dateFrom, dateTo, user);
+    public List<Day> getDaysByDateInRange(LocalDate dateFrom, LocalDate dateTo, User user) {
+        return dayDAO.getDaysByDateInRange(dateFrom, dateTo, user);
     }
 
     public List<Meal> getInitializedMeals(List<Meal> meals) {
