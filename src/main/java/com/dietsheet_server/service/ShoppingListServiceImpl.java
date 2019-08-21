@@ -98,8 +98,8 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public ShoppingList generateShoppingListForDays(List<Long> dayIds) {
         List<Day> days = dayService.findAll(dayIds);
         days.forEach(day ->
-           day.getMeals().forEach(meal ->
-                   meal.getIngredients().forEach(ingredient ->
+           day.getDayMeals().forEach(dayMeal ->
+                   dayMeal.getMeal().getIngredients().forEach(ingredient ->
                            shoppingListBuilder.addItem(ingredient)))
         );
         return shoppingListBuilder.build();

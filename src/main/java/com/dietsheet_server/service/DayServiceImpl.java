@@ -4,6 +4,7 @@ package com.dietsheet_server.service;
 import com.dietsheet_server.DAO.DayDAO;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.diet.DayMeal;
 import com.dietsheet_server.model.diet.Meal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,8 +40,8 @@ public class DayServiceImpl implements DayService {
         if(isExist(day)) {
             throw new DataIntegrityViolationException("Resource exists");
         }
-        if(day.getMeals().size() > 0) {
-            day.setMeals(getInitializedMeals(day.getMeals()));
+        if(day.getDayMeals().size() > 0) {
+            day.updateDayMeals(getInitializedDayMeals(day.getDayMeals()));
             day.recalculateSummary();
         }
         dayDAO.save(day);
@@ -55,7 +56,7 @@ public class DayServiceImpl implements DayService {
     @Override
     public void update(Day dayUpdateData, long id) {
         Day dayToUpdate = findById(id);
-        dayToUpdate.setMeals(getInitializedMeals(dayUpdateData.getMeals()));
+        dayToUpdate.updateDayMeals(getInitializedDayMeals(dayUpdateData.getDayMeals()));
         dayToUpdate.recalculateSummary();
         dayDAO.update(dayToUpdate);
     }
@@ -111,10 +112,14 @@ public class DayServiceImpl implements DayService {
         return dayDAO.getDaysByDateInRange(dateFrom, dateTo, user);
     }
 
-    public List<Meal> getInitializedMeals(List<Meal> meals) {
-        return meals
+    public List<DayMeal> getInitializedDayMeals(List<DayMeal> dayMeals) {
+        return dayMeals
                 .stream()
-                .map(meal -> mealService.findById(meal.getId()))
+                .map(dayMeal -> new DayMeal(
+                        mealService.findById(dayMeal.getMeal().getId()),
+                        dayMeal.isEaten()
+                        )
+                )
                 .collect(Collectors.toList());
     }
 

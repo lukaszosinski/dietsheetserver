@@ -31,12 +31,13 @@ public class Day extends DietEntity {
     @JsonDeserialize(using = LocalDateEpochDeserializer.class)
     private LocalDate date;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "day_meal",
-            joinColumns = @JoinColumn(name = "day_id"),
-            inverseJoinColumns = @JoinColumn(name = "meal_id")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
     )
-    private List<Meal> meals = new ArrayList<>();
+    @JoinColumn(name = "day_id")
+    private List<DayMeal> dayMeals = new ArrayList<>();
 
     public Day() {
         super();
@@ -45,6 +46,11 @@ public class Day extends DietEntity {
         }
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
+    }
+
+    public void updateDayMeals(List<DayMeal> newDayMeals) {
+        dayMeals.clear();
+        dayMeals.addAll(newDayMeals);
     }
 
     @JsonIgnore
@@ -56,9 +62,9 @@ public class Day extends DietEntity {
     @Override
     public void recalculateSummary() {
         Summary newSummary = new Summary();
-        for (Meal meal: meals
+        for (DayMeal dayMeal: dayMeals
              ) {
-             Summary summaryToAdd = meal.getSummary();
+             Summary summaryToAdd = dayMeal.getMeal().getSummary();
              newSummary = newSummary.add(summaryToAdd);
         }
         this.updateSummary(newSummary);

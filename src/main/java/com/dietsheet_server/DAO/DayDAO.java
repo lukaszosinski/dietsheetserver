@@ -53,7 +53,7 @@ public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
 
     @Override
     public void initializeEntityChildren(Day day) {
-        Hibernate.initialize(day.getMeals());
+        Hibernate.initialize(day.getDayMeals());
         Hibernate.initialize(day.getSummary());
     }
 
