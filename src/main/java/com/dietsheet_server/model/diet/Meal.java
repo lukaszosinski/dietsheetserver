@@ -47,12 +47,7 @@ public class Meal extends DietEntity {
     }
 
     public void updateIngredients(List<Ingredient> newIngredients) {
-        ingredients.removeAll(newIngredients);
-        ingredients.forEach(ingredient ->
-                ingredient.getProduct().removeIngredient(ingredient));
         ingredients.clear();
-        newIngredients.forEach(ingredient ->
-                ingredient.getProduct().addIngredient(ingredient));
         ingredients.addAll(newIngredients);
     }
 
