@@ -71,14 +71,4 @@ public class Meal extends DietEntity {
         }
         this.updateSummary(newSummary);
     }
-
-    public void addDayMeal(DayMeal dayMeal) {
-        dayMeals.add(dayMeal);
-    }
-
-    public void removeDayMeal(DayMeal dayMeal) {
-        dayMeals.remove(dayMeal);
-    }
-
-
 }
