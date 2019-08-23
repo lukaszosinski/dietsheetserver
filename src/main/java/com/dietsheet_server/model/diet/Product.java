@@ -43,14 +43,6 @@ public class Product extends DietEntity {
                 .collect(Collectors.toList());
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
-    }
-
-    public void removeIngredient(Ingredient ingredient) {
-        ingredients.remove(ingredient);
-    }
-
     @Override
     public void recalculateSummary() {
         //Do nothing

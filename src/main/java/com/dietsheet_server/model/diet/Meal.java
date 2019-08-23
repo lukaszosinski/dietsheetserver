@@ -34,8 +34,12 @@ public class Meal extends DietEntity {
     private List<Ingredient> ingredients;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "meals")
-    private List<Day> days = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "meal",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<DayMeal> dayMeals = new ArrayList<>();
 
     public Meal() {
         super();
@@ -43,19 +47,17 @@ public class Meal extends DietEntity {
     }
 
     public void updateIngredients(List<Ingredient> newIngredients) {
-        ingredients.removeAll(newIngredients);
-        ingredients.forEach(ingredient ->
-                ingredient.getProduct().removeIngredient(ingredient));
         ingredients.clear();
-        newIngredients.forEach(ingredient ->
-                ingredient.getProduct().addIngredient(ingredient));
         ingredients.addAll(newIngredients);
     }
 
     @JsonIgnore
     @Override
     public List<DietEntity> getParents() {
-        return new ArrayList<>(days);
+        return dayMeals
+                .stream()
+                .map(DayMeal::getDay)
+                .collect(Collectors.toList());
     }
 
     @Override

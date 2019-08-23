@@ -31,20 +31,38 @@ public class Day extends DietEntity {
     @JsonDeserialize(using = LocalDateEpochDeserializer.class)
     private LocalDate date;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "day_meal",
-            joinColumns = @JoinColumn(name = "day_id"),
-            inverseJoinColumns = @JoinColumn(name = "meal_id")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
     )
-    private List<Meal> meals = new ArrayList<>();
+    @JoinColumn(name = "day_id")
+    private List<DayMeal> dayMeals = new ArrayList<>();
+
+    @OneToOne(cascade =
+            CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    @JoinColumn(
+            name = "eaten_meals_summary_id",
+            referencedColumnName = "id",
+            unique = true
+    )
+    Summary eatenMealsSummary;
 
     public Day() {
         super();
         if(getSummary() == null) {
             setSummary(new Summary());
         }
+        eatenMealsSummary = new Summary();
         //TODO Decide what to do with date and find right way to set it.
         this.date = LocalDate.now();
+    }
+
+    public void updateDayMeals(List<DayMeal> newDayMeals) {
+        dayMeals.clear();
+        dayMeals.addAll(newDayMeals);
     }
 
     @JsonIgnore
@@ -56,11 +74,21 @@ public class Day extends DietEntity {
     @Override
     public void recalculateSummary() {
         Summary newSummary = new Summary();
-        for (Meal meal: meals
+        Summary newEatenMealsSummary = new Summary();
+        for (DayMeal dayMeal: dayMeals
              ) {
-             Summary summaryToAdd = meal.getSummary();
+             Summary summaryToAdd = dayMeal.getMeal().getSummary();
              newSummary = newSummary.add(summaryToAdd);
+             if(dayMeal.isEaten()) {
+                 newEatenMealsSummary = newEatenMealsSummary.add(summaryToAdd);
+             }
         }
         this.updateSummary(newSummary);
+        this.updateEatenMealsSummary(newEatenMealsSummary);
+    }
+
+    private void updateEatenMealsSummary(Summary newEatenMealsSummary) {
+        newEatenMealsSummary.setId(eatenMealsSummary.getId());
+        eatenMealsSummary = newEatenMealsSummary;
     }
 }
