@@ -41,13 +41,14 @@ public class DayDAO extends AbstractOwnedEntitySecuredDAO<Day> {
                 "from "
                 + clazz.getName()
                 + " c where c.owner = :owner and c.date between :dateFrom and :dateTo";
-        return entityManager
+        List<Day> days = entityManager
                 .createQuery(hql)
                 .setParameter("owner", user)
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
                 .getResultList();
-
+        days.forEach(this::initializeEntityChildren);
+        return days;
     }
 
 

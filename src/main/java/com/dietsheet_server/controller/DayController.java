@@ -59,7 +59,8 @@ public class DayController {
             @PathVariable("id") long id,
             @RequestBody Day dayUpdateData) {
         dayService.update(dayUpdateData, id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Day updatedDay = dayService.findById(id);
+        return new ResponseEntity<>(updatedDay, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/day/{id}")
