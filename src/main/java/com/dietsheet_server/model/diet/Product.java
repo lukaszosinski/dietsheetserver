@@ -1,6 +1,7 @@
 package com.dietsheet_server.model.diet;
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,10 @@ public class Product extends DietEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "granularity")
+    @Enumerated(EnumType.STRING)
+    private Granularity granularity = Granularity.HUNDRED_GRAMS;
+
     @JsonIgnore
     @OneToMany(
             mappedBy = "product",
@@ -44,7 +49,25 @@ public class Product extends DietEntity {
     }
 
     @Override
+
     public void recalculateSummary() {
         //Do nothing
     }
+
+    @Getter
+    public enum Granularity {
+        HUNDRED_GRAMS(100),
+        PIECE(1),
+        HUNDRED_MILLILITERS(100),
+        KILOGRAM(1);
+
+        private final int amountDivider;
+
+        Granularity(int amountDivider) {
+            this.amountDivider = amountDivider;
+        }
+    }
 }
+
+
+

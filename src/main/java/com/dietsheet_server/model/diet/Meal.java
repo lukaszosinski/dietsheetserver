@@ -66,7 +66,8 @@ public class Meal extends DietEntity {
         for (Ingredient ingredient: this.getIngredients()
              ) {
             Summary summaryToAdd = ingredient.getProduct().getSummary();
-            double multiplier = (double) ingredient.getAmount() / 100;
+            int amountDivider = ingredient.getProduct().getGranularity().getAmountDivider();
+            double multiplier = (double) ingredient.getAmount() / amountDivider;
             newSummary = newSummary.add(summaryToAdd, multiplier);
         }
         this.updateSummary(newSummary);
