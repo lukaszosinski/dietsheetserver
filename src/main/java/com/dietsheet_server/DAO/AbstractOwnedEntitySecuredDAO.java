@@ -44,11 +44,16 @@ public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
                 " and c.name like concat(:nameLike, '%')";
 
         String nameLike = params.getOrDefault("nameLike", "");
+        int pageNum = Integer.parseInt(params.getOrDefault("pageNum", "0"));
+        int quantity = Integer.parseInt(params.getOrDefault("quantity", "100"));
+        int from = pageNum*quantity;
 
         return entityManager
                 .createQuery(hql, clazz)
                 .setParameter("owner", user)
                 .setParameter("nameLike", nameLike)
+                .setFirstResult(from)
+                .setMaxResults(quantity)
                 .getResultList();
     }
 
