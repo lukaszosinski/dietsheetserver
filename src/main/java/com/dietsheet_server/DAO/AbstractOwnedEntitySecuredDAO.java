@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PostFilter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Map;
 
 
 public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
@@ -35,12 +36,19 @@ public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
 
-    public List<T> getAllByUser(User user) {
-        String hql = "from " + clazz.getName() + " c where c.owner = :owner";
+    public List<T> getAllByUser(User user, Map<String, String> params) {
+        String hql =
+                "from " +
+                clazz.getName() +
+                " c where c.owner = :owner" +
+                " and c.name like concat(:nameLike, '%')";
+
+        String nameLike = params.getOrDefault("nameLike", "");
 
         return entityManager
                 .createQuery(hql, clazz)
                 .setParameter("owner", user)
+                .setParameter("nameLike", nameLike)
                 .getResultList();
     }
 

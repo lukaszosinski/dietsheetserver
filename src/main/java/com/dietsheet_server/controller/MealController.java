@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MealController {
@@ -19,8 +20,10 @@ public class MealController {
     Service<Meal> mealService;
 
     @GetMapping(value = "/meal")
-    public ResponseEntity<List<Meal>> getAllMeals(@AuthenticationPrincipal User user) {
-        List<Meal> meals = mealService.findAll(user);
+    public ResponseEntity<List<Meal>> getAllMeals(
+            @RequestParam Map<String,String> params,
+            @AuthenticationPrincipal User user) {
+        List<Meal> meals = mealService.findAll(user, params);
         return new ResponseEntity<>(meals, HttpStatus.OK);
     }
 

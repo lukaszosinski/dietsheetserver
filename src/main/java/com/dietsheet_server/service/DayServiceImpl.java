@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service("dayService")
@@ -83,8 +84,8 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public List<Day> findAll(User user) {
-        return dayDAO.getAllByUser(user);
+    public List<Day> findAll(User user, Map<String, String> params) {
+        return dayDAO.getAllByUser(user, params);
     }
 
     @Override

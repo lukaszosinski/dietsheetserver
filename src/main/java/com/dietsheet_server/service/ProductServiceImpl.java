@@ -11,6 +11,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.stereotype.Service("productService")
 @Transactional
@@ -78,8 +79,8 @@ public class ProductServiceImpl implements Service<Product>{
     }
 
     @Override
-    public List<Product> findAll(User user) {
-        return productDAO.getAllByUser(user);
+    public List<Product> findAll(User user, Map<String, String> params) {
+        return productDAO.getAllByUser(user, params);
     }
 
     @Override
