@@ -49,7 +49,6 @@ public class Product extends DietEntity {
     }
 
     @Override
-
     public void recalculateSummary() {
         //Do nothing
     }
@@ -58,8 +57,7 @@ public class Product extends DietEntity {
     public enum Granularity {
         HUNDRED_GRAMS(100),
         PIECE(1),
-        HUNDRED_MILLILITERS(100),
-        KILOGRAM(1);
+        HUNDRED_MILLILITERS(100);
 
         private final int amountDivider;
 
