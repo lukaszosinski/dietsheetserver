@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.ProductDAO;
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
@@ -80,7 +81,8 @@ public class ProductServiceImpl implements Service<Product>{
 
     @Override
     public List<Product> findAll(User user, Map<String, String> params) {
-        return productDAO.getAllByUser(user, params);
+        QueryParams queryParams = new QueryParams(params);
+        return productDAO.getAllByUser(user, queryParams);
     }
 
     @Override

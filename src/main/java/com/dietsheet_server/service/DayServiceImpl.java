@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.DayDAO;
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.DayMeal;
@@ -85,7 +86,8 @@ public class DayServiceImpl implements DayService {
 
     @Override
     public List<Day> findAll(User user, Map<String, String> params) {
-        return dayDAO.getAllByUser(user, params);
+        QueryParams queryParams = new QueryParams(params);
+        return dayDAO.getAllByUser(user, queryParams);
     }
 
     @Override

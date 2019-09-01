@@ -1,5 +1,6 @@
 package com.dietsheet_server.service;
 
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.DAO.ShoppingListDAO;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingListBuilder;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
@@ -75,7 +76,8 @@ public class ShoppingListServiceImpl implements ShoppingListService {
 
     @Override
     public List<ShoppingList> findAll(User user, Map<String, String> params) {
-        return shoppingListDAO.getAllByUser(user, params);
+        QueryParams queryParams = new QueryParams(params);
+        return shoppingListDAO.getAllByUser(user, queryParams);
     }
 
     @Override

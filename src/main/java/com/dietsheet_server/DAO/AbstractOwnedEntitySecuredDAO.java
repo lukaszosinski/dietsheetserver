@@ -8,8 +8,8 @@ import org.springframework.security.access.prepost.PostFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
-import java.util.Map;
 
 
 public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
@@ -36,24 +36,19 @@ public abstract class AbstractOwnedEntitySecuredDAO<T extends OwnedEntity> {
         return entityManager.createQuery("from " + clazz.getName(), clazz).getResultList();
     }
 
-    public List<T> getAllByUser(User user, Map<String, String> params) {
+    public List<T> getAllByUser(User user, QueryParams params) {
         String hql =
                 "from " +
                 clazz.getName() +
                 " c where c.owner = :owner" +
                 " and c.name like concat(:nameLike, '%')";
 
-        String nameLike = params.getOrDefault("nameLike", "");
-        int pageNum = Integer.parseInt(params.getOrDefault("pageNum", "0"));
-        int quantity = Integer.parseInt(params.getOrDefault("quantity", "100"));
-        int from = pageNum*quantity;
-
         return entityManager
                 .createQuery(hql, clazz)
                 .setParameter("owner", user)
-                .setParameter("nameLike", nameLike)
-                .setFirstResult(from)
-                .setMaxResults(quantity)
+                .setFirstResult(params.getFirstResult())
+                .setMaxResults(params.getMaxResults())
+                .setParameter("nameLike", params.getNameLike())
                 .getResultList();
     }
 
