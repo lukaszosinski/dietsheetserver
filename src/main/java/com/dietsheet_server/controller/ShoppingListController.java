@@ -5,11 +5,13 @@ import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.service.Service;
 import com.dietsheet_server.service.ShoppingListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -23,8 +25,13 @@ public class ShoppingListController {
     ShoppingListService shoppingListService;
 
     @GetMapping(value = "/shoppingListForDays")
-    public ResponseEntity<ShoppingList> generateShoppingList(@RequestParam List<Long> dayIds) {
-        ShoppingList shoppingList = shoppingListService.generateShoppingListForDays(dayIds);
+    public ResponseEntity<ShoppingList> generateShoppingList(
+            @AuthenticationPrincipal User user,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateFrom,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @RequestParam LocalDate dateTo) {
+        ShoppingList shoppingList = shoppingListService.generateShoppingListForDateRange(dateFrom, dateTo, user);
         return new ResponseEntity<>(shoppingList, HttpStatus.OK);
     }
 

@@ -1,9 +1,10 @@
 package com.dietsheet_server.service;
 
+import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 
-import java.util.List;
+import java.time.LocalDate;
 
 public interface ShoppingListService extends Service<ShoppingList> {
-    ShoppingList generateShoppingListForDays(List<Long> dayIds);
+    ShoppingList generateShoppingListForDateRange(LocalDate dateFrom, LocalDate dateTo, User user);
 }
