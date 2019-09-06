@@ -25,6 +25,9 @@ public class ShoppingList extends OwnedEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "name")
+    private String name = "";
+
     @OneToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

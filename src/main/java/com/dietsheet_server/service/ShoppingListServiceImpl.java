@@ -1,18 +1,18 @@
 package com.dietsheet_server.service;
 
-import com.dietsheet_server.DAO.DayDAO;
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.DAO.ShoppingListDAO;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingListBuilder;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.Day;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.stereotype.Service("shoppingListService")
 @Transactional
@@ -75,8 +75,9 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public List<ShoppingList> findAll(User user) {
-        return shoppingListDAO.getAllByUser(user);
+    public List<ShoppingList> findAll(User user, Map<String, String> params) {
+        QueryParams queryParams = new QueryParams(params);
+        return shoppingListDAO.getAllByUser(user, queryParams);
     }
 
     @Override

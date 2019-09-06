@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 import com.dietsheet_server.model.User;
 import java.util.List;
+import java.util.Map;
 
 public interface Service<T> {
 
@@ -22,7 +23,7 @@ public interface Service<T> {
 
     List<T> findAll(List<Long> ids);
 
-    List<T> findAll(User user);
+    List<T> findAll(User user, Map<String, String> params);
 
     void deleteAll();
 
