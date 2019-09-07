@@ -23,7 +23,7 @@ import java.util.List;
 public class ShoppingList extends OwnedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name = "";

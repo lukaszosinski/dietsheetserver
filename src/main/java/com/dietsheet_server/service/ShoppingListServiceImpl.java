@@ -89,7 +89,8 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     @Override
     public boolean isExist(ShoppingList shoppingList) {
         try {
-            shoppingListDAO.get(shoppingList.getId());
+            long shoppingListId = shoppingList.getId() == null ? 0 : shoppingList.getId();
+            shoppingListDAO.get(shoppingListId);
             return true;
         } catch (ResourceNotFoundException e) {
             return false;
