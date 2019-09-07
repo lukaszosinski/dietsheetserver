@@ -1,7 +1,7 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.diet.Meal;
 import com.dietsheet_server.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +46,8 @@ public class MealController {
             @PathVariable("id") long id,
             @RequestBody Meal mealUpdateData) {
         mealService.update(mealUpdateData, id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Meal updatedMeal = mealService.findById(id);
+        return new ResponseEntity<>(updatedMeal, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/meal/{id}")
