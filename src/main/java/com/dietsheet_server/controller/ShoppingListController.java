@@ -28,9 +28,9 @@ public class ShoppingListController {
     @GetMapping(value = "/shoppingListForDays")
     public ResponseEntity<ShoppingList> generateShoppingList(
             @AuthenticationPrincipal User user,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             @RequestParam LocalDate dateFrom,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             @RequestParam LocalDate dateTo) {
         ShoppingList shoppingList = shoppingListService.generateShoppingListForDateRange(dateFrom, dateTo, user);
         return new ResponseEntity<>(shoppingList, HttpStatus.OK);
