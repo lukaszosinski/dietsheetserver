@@ -46,7 +46,8 @@ public class ProductController {
             @PathVariable("id") long id,
             @RequestBody Product productUpdateData) {
         productService.update(productUpdateData, id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Product product = productService.findById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/product/{id}")
