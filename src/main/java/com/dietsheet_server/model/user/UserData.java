@@ -38,6 +38,15 @@ public class UserData {
     @Enumerated(EnumType.STRING)
     private BMIStatus bmiStatus;
 
+    UserData() {
+        age = 0;
+        height = 0;
+        weight = 0;
+        sex = Sex.UNDEFINED;
+        bmi = 0;
+        bmiStatus = BMIStatus.UNDEFINED;
+    }
+
     private void calculateBMI() {
         if(height > 0 && weight > 0) {
             bmi = weight / (height*height);
@@ -59,13 +68,15 @@ public class UserData {
 
     public enum Sex {
         MALE,
-        FEMALE
+        FEMALE,
+        UNDEFINED
     }
 
     public enum BMIStatus {
         UNDERWEIGHT,
         CORRECT_WEIGHT,
         OVERWEIGHT,
-        OBESITY
+        OBESITY,
+        UNDEFINED
     }
 }
