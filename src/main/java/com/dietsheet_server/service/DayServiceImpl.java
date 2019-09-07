@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.DayDAO;
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.model.User;
 import com.dietsheet_server.model.diet.DayMeal;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service("dayService")
@@ -83,8 +85,9 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public List<Day> findAll(User user) {
-        return dayDAO.getAllByUser(user);
+    public List<Day> findAll(User user, Map<String, String> params) {
+        QueryParams queryParams = new QueryParams(params);
+        return dayDAO.getAllByUser(user, queryParams);
     }
 
     @Override

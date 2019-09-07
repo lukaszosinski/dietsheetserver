@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -42,8 +43,10 @@ public class ShoppingListController {
     }
 
     @GetMapping(value = "/shoppingList")
-    public ResponseEntity<List<ShoppingList>> getAllShoppingLists(@AuthenticationPrincipal User user) {
-        List<ShoppingList> shoppingLists = shoppingListService.findAll(user);
+    public ResponseEntity<List<ShoppingList>> getAllShoppingLists(
+            @RequestParam Map<String,String> params,
+            @AuthenticationPrincipal User user) {
+        List<ShoppingList> shoppingLists = shoppingListService.findAll(user, params);
         return new ResponseEntity<>(shoppingLists, HttpStatus.OK);
     }
 

@@ -2,6 +2,7 @@ package com.dietsheet_server.service;
 
 
 import com.dietsheet_server.DAO.ProductDAO;
+import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Product;
 import com.dietsheet_server.model.User;
@@ -11,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @org.springframework.stereotype.Service("productService")
 @Transactional
@@ -78,8 +80,9 @@ public class ProductServiceImpl implements Service<Product>{
     }
 
     @Override
-    public List<Product> findAll(User user) {
-        return productDAO.getAllByUser(user);
+    public List<Product> findAll(User user, Map<String, String> params) {
+        QueryParams queryParams = new QueryParams(params);
+        return productDAO.getAllByUser(user, queryParams);
     }
 
     @Override
