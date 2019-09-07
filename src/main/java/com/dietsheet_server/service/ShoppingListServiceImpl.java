@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     ShoppingListDAO shoppingListDAO;
 
     @Autowired
-    Service<Day> dayService;
+    DayService dayService;
 
     @Override
     public ShoppingList findById(long id) {
@@ -96,8 +97,8 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     }
 
     @Override
-    public ShoppingList generateShoppingListForDays(List<Long> dayIds) {
-        List<Day> days = dayService.findAll(dayIds);
+    public ShoppingList generateShoppingListForDateRange(LocalDate dateFrom, LocalDate dateTo, User user) {
+        List<Day> days = dayService.getDaysByDateInRange(dateFrom, dateTo, user);
         days.forEach(day ->
            day.getDayMeals().forEach(dayMeal ->
                    dayMeal.getMeal().getIngredients().forEach(ingredient ->

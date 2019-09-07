@@ -23,9 +23,15 @@ public class ShoppingListItem {
     private String productName;
     @Column(name = "amount")
     private int amount;
+    @Column (name = "unit")
+    private String unit;
+    @Column (name = "checked")
+    private boolean checked;
 
-    public ShoppingListItem(String productName, int amount) {
+    public ShoppingListItem(String productName, int amount, String unit) {
         this.productName = productName;
         this.amount = amount;
+        this.unit = unit;
+        this.checked = false;
     }
 }
