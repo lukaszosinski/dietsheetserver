@@ -1,6 +1,6 @@
 package com.dietsheet_server.controller;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.Day;
 import com.dietsheet_server.service.Service;
 import com.dietsheet_server.service.ShoppingListService;

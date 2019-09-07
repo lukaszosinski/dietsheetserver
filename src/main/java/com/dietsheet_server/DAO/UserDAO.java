@@ -1,6 +1,6 @@
 package com.dietsheet_server.DAO;
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.dietsheet_server.security;
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 
 public interface UserAuthenticationService {
 

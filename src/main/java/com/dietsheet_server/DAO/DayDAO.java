@@ -1,7 +1,7 @@
 package com.dietsheet_server.DAO;
 
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.Day;
 import org.hibernate.Hibernate;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;

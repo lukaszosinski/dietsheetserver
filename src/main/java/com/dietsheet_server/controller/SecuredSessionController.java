@@ -1,6 +1,6 @@
 package com.dietsheet_server.controller;
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.security.UserAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

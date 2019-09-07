@@ -4,7 +4,7 @@ package com.dietsheet_server.service;
 import com.dietsheet_server.DAO.DayDAO;
 import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.Day;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.DayMeal;
 import com.dietsheet_server.model.diet.Meal;
 import org.springframework.beans.factory.annotation.Autowired;

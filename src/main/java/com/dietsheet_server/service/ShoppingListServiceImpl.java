@@ -4,7 +4,7 @@ import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.DAO.ShoppingListDAO;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingListBuilder;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.Day;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

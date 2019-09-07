@@ -1,4 +1,4 @@
-package com.dietsheet_server.model;
+package com.dietsheet_server.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,6 +30,17 @@ public class User implements UserDetails {
 
     @Column(name = "token")
     private String token;
+
+    @OneToOne(cascade =
+            CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "user_data_id",
+            referencedColumnName = "id",
+            unique = true
+    )
+    private UserData userData;
 
     @JsonProperty
     public void setPassword(String password) {

@@ -1,7 +1,7 @@
 package com.dietsheet_server.security;
 
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;

@@ -1,5 +1,6 @@
 package com.dietsheet_server.model;
 
+import com.dietsheet_server.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
