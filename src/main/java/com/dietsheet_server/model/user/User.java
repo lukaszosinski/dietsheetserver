@@ -62,9 +62,11 @@ public class User implements UserDetails {
     private DietLimitsCalculationStrategyEnum strategyEnum;
 
     public void calculateDietLimits() {
-        DietLimitsCalculationStrategy dietLimitsCalculationStrategy =
-                DietLimitsCalculationStrategyFactory.getDietLimitsCalculationStrategy(strategyEnum);
-        dietLimits = dietLimitsCalculationStrategy.calculateLimits(userData);
+        if(strategyEnum != DietLimitsCalculationStrategyEnum.MANUAL) {
+            DietLimitsCalculationStrategy dietLimitsCalculationStrategy =
+                    DietLimitsCalculationStrategyFactory.getDietLimitsCalculationStrategy(strategyEnum);
+            dietLimits = dietLimitsCalculationStrategy.calculateLimits(userData);
+        }
     }
 
     @JsonProperty

@@ -12,7 +12,7 @@ public class BuildMassLimitsCalculationStrategy implements DietLimitsCalculation
         double BRMKcal = brmCalculator.calculateKCAL(userData);
 
         final double BUILD_MASS_KCAL_INCREASE = 200.0;
-        double kcal = BRMKcal * CommonCPRIndicators.get(userData.getPhysicalActivity()) - BUILD_MASS_KCAL_INCREASE;
+        double kcal = BRMKcal * CommonCPRIndicators.get(userData.getPhysicalActivity()) + BUILD_MASS_KCAL_INCREASE;
 
         double proteins = userData.getWeight() * 2.0;
         double fat = (kcal * 0.25) / 9;
