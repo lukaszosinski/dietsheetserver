@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.prefs.Preferences;
 
 @Entity
 @Getter
@@ -44,7 +45,7 @@ public class User implements UserDetails {
             referencedColumnName = "id",
             unique = true
     )
-    private UserData userData;
+    private UserData data;
 
     @OneToOne(cascade =
             CascadeType.ALL,
@@ -57,15 +58,22 @@ public class User implements UserDetails {
     )
     private DietLimits dietLimits;
 
-    @Column(name = "strategy_enum")
-    @Enumerated(EnumType.STRING)
-    private DietLimitsCalculationStrategyEnum strategyEnum;
+    @OneToOne(cascade =
+            CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "preferences_id",
+            referencedColumnName = "id",
+            unique = true
+    )
+    private UserPreferences preferences = new UserPreferences();
 
     public void calculateDietLimits() {
-        if(strategyEnum != DietLimitsCalculationStrategyEnum.MANUAL) {
+        if(getPreferences().getStrategyEnum() != DietLimitsCalculationStrategyEnum.MANUAL) {
             DietLimitsCalculationStrategy dietLimitsCalculationStrategy =
-                    DietLimitsCalculationStrategyFactory.getDietLimitsCalculationStrategy(strategyEnum);
-            dietLimits = dietLimitsCalculationStrategy.calculateLimits(userData);
+                    DietLimitsCalculationStrategyFactory.getDietLimitsCalculationStrategy(getPreferences().getStrategyEnum());
+            dietLimits = dietLimitsCalculationStrategy.calculateLimits(data);
         }
     }
 

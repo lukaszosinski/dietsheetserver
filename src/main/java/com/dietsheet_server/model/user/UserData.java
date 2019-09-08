@@ -42,7 +42,7 @@ public class UserData {
     @Enumerated(EnumType.STRING)
     private PhysicalActivity physicalActivity;
 
-    UserData() {
+    public UserData() {
         age = 0;
         height = 0;
         weight = 0;
@@ -52,9 +52,9 @@ public class UserData {
         physicalActivity = PhysicalActivity.LOW;
     }
 
-    private void calculateBMI() {
-        if(height > 0 && weight > 0) {
-            bmi = weight / (height*height);
+    public void calculateBMI() {
+        if(height > 0.0 && weight > 0.0) {
+            bmi = weight / ((height/100.0)*(height/100.0));
             setBmiStatus(getBMIStatusForBMI(bmi));
         }
     }
