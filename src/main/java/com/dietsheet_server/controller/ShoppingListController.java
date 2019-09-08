@@ -2,6 +2,7 @@ package com.dietsheet_server.controller;
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.Day;
+import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
 import com.dietsheet_server.service.Service;
 import com.dietsheet_server.service.ShoppingListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,8 @@ public class ShoppingListController {
             @PathVariable("id") long id,
             @RequestBody ShoppingList shoppingListUpdateData) {
         shoppingListService.update(shoppingListUpdateData, id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        ShoppingList shoppingList = shoppingListService.findById(id);
+        return new ResponseEntity<>(shoppingList, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/shoppingList/{id}")

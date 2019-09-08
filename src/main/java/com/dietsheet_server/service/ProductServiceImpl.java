@@ -52,6 +52,7 @@ public class ProductServiceImpl implements Service<Product>{
     public void update(Product productUpdateData, long id) {
         Product productToUpdate = findById(id);
         productToUpdate.setName(productUpdateData.getName());
+        productToUpdate.setGranularity(productUpdateData.getGranularity());
         productToUpdate.updateSummary(productUpdateData.getSummary());
         productDAO.update(productToUpdate);
         dietEntityCascadeUpdater.cascadeUpdateParents(productToUpdate);
