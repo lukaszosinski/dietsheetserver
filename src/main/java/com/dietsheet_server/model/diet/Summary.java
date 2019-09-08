@@ -60,13 +60,14 @@ public class Summary {
     }
 
     public Summary add(Summary summaryToAdd, double multiplier) {
-        return new Summary(
-                (int) (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
-                (int) (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
-                (int) (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
-                (int) (this.getFat()         + summaryToAdd.getFat()      * multiplier),
-                (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
-        );
+        Summary newSummary = new Summary(
+                (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
+                (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
+                (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
+                (this.getFat()         + summaryToAdd.getFat()      * multiplier),
+                (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier));
+        newSummary.roundValues(1);
+        return newSummary;
     }
 
     public void roundValues(int precision) {
