@@ -5,7 +5,7 @@ import com.dietsheet_server.DAO.ProductDAO;
 import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Product;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;

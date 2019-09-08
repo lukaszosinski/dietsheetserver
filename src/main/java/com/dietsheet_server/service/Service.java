@@ -1,6 +1,6 @@
 package com.dietsheet_server.service;
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import java.util.List;
 import java.util.Map;
 

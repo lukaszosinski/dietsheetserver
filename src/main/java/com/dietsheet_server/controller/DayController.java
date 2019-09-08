@@ -1,7 +1,7 @@
 package com.dietsheet_server.controller;
 
 import com.dietsheet_server.model.diet.Day;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.service.DayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

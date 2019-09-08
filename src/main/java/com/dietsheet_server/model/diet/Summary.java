@@ -1,15 +1,11 @@
 package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @Table(name = "summary")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -19,19 +15,19 @@ public class Summary {
     private long id;
 
     @Column(name = "kcal")
-    private int kcal;
+    private double kcal;
 
     @Column(name = "proteins")
-    private int proteins;
+    private double proteins;
 
     @Column(name = "carbs")
-    private int carbs;
+    private double carbs;
 
     @Column(name = "fat")
-    private int fat;
+    private double fat;
 
     @Column(name = "roughage")
-    private int roughage;
+    private double roughage;
 
     public Summary() {
         this.kcal = 0;
@@ -41,7 +37,8 @@ public class Summary {
         this.roughage = 0;
     }
 
-    public Summary(int kcal, int proteins, int carbs, int fat, int roughage) {
+    @Builder
+    public Summary(double kcal, double proteins, double carbs, double fat, double roughage) {
         this.kcal = kcal;
         this.proteins = proteins;
         this.carbs = carbs;
@@ -60,12 +57,22 @@ public class Summary {
     }
 
     public Summary add(Summary summaryToAdd, double multiplier) {
-        return new Summary(
-                (int) (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
-                (int) (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
-                (int) (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
-                (int) (this.getFat()         + summaryToAdd.getFat()      * multiplier),
-                (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
-        );
+        Summary newSummary = new Summary(
+                (this.getKcal()        + summaryToAdd.getKcal()     * multiplier),
+                (this.getProteins()    + summaryToAdd.getProteins() * multiplier),
+                (this.getCarbs()       + summaryToAdd.getCarbs()    * multiplier),
+                (this.getFat()         + summaryToAdd.getFat()      * multiplier),
+                (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier));
+        newSummary.roundValues(1);
+        return newSummary;
+    }
+
+    public void roundValues(int precision) {
+        double scale = Math.pow(10, precision);
+        kcal = Math.round(kcal * scale) / scale;
+        proteins = Math.round(proteins * scale) / scale;
+        carbs = Math.round(carbs * scale) / scale;
+        fat = Math.round(fat * scale) / scale;
+        roughage = Math.round(roughage * scale) / scale;
     }
 }

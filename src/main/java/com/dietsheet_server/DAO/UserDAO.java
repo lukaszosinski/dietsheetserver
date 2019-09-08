@@ -1,6 +1,7 @@
 package com.dietsheet_server.DAO;
 
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
+import org.hibernate.Hibernate;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,9 @@ public class UserDAO {
         if(user == null) {
             throw new ResourceNotFoundException();
         }
+        Hibernate.initialize(user.getData());
+        Hibernate.initialize(user.getDietLimits());
+        Hibernate.initialize(user.getPreferences());
         return user;
     }
 

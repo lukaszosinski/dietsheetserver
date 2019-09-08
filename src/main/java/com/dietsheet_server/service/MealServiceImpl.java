@@ -6,7 +6,7 @@ import com.dietsheet_server.DAO.QueryParams;
 import com.dietsheet_server.model.diet.DietEntityCascadeUpdater;
 import com.dietsheet_server.model.diet.Ingredient;
 import com.dietsheet_server.model.diet.Meal;
-import com.dietsheet_server.model.User;
+import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.diet.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
