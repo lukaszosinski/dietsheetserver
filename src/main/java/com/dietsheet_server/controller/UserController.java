@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/user/data")
-    public ResponseEntity<UserData> getUserData(
+    public ResponseEntity<UserData> updateUserData(
             @AuthenticationPrincipal final User user,
             @RequestBody UserData userData) {
         userService.updateUserData(user, userData);
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/user/data")
-    public ResponseEntity<UserData> updateUserData(
+    public ResponseEntity<UserData> getUserData(
             @AuthenticationPrincipal final User user) {
         UserData userData = userService.getUserData(user);
         return new ResponseEntity<>(userData, HttpStatus.OK);
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @GetMapping("/user/preferences")
-    public ResponseEntity<UserPreferences> updateUserPreferences(
+    public ResponseEntity<UserPreferences> getUserPreferences(
             @AuthenticationPrincipal final User user) {
         UserPreferences userPreferences = userService.getUserPreferences(user);
         return new ResponseEntity<>(userPreferences, HttpStatus.OK);

@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserData(User user, UserData userData) {
         User userToUpdate = userDAO.get(user.getId());
-        UserData userDataToUpdate = userToUpdate.getData() != null ? userToUpdate.getData() : new UserData();
+        UserData userDataToUpdate = userToUpdate.getData();
         userDataToUpdate.setAge(userData.getAge());
         userDataToUpdate.setHeight(userData.getHeight());
         userDataToUpdate.setWeight(userData.getWeight());
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         userToUpdate.setData(userDataToUpdate);
         userToUpdate.calculateDietLimits();
 
-        userDAO.save(userToUpdate);
+        userDAO.update(userToUpdate);
     }
 
     @Override

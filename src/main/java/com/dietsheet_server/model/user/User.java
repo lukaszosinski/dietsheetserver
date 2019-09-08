@@ -45,7 +45,7 @@ public class User implements UserDetails {
             referencedColumnName = "id",
             unique = true
     )
-    private UserData data;
+    private UserData data = new UserData();
 
     @OneToOne(cascade =
             CascadeType.ALL,
@@ -56,7 +56,7 @@ public class User implements UserDetails {
             referencedColumnName = "id",
             unique = true
     )
-    private DietLimits dietLimits;
+    private DietLimits dietLimits = new DietLimits();
 
     @OneToOne(cascade =
             CascadeType.ALL,

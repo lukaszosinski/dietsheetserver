@@ -1,15 +1,11 @@
 package com.dietsheet_server.model.diet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @Table(name = "summary")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -41,6 +37,7 @@ public class Summary {
         this.roughage = 0;
     }
 
+    @Builder
     public Summary(double kcal, double proteins, double carbs, double fat, double roughage) {
         this.kcal = kcal;
         this.proteins = proteins;

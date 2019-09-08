@@ -24,7 +24,7 @@ public class DietLimits {
             referencedColumnName = "id",
             unique = true
     )
-    private Summary minLimits;
+    private Summary minLimits = new Summary();
 
     @OneToOne(cascade =
             CascadeType.ALL,
@@ -35,5 +35,5 @@ public class DietLimits {
             referencedColumnName = "id",
             unique = true
     )
-    private Summary maxLimits;
+    private Summary maxLimits = new Summary();
 }

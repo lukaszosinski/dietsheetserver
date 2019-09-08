@@ -13,13 +13,13 @@ public class DietLimitsCalculationStrategyFactory {
 
     public static DietLimitsCalculationStrategy getDietLimitsCalculationStrategy(
             DietLimitsCalculationStrategyEnum dietLimitsCalculationStrategyEnum) {
-        DietLimitsCalculationStrategy instance = null;
         try {
-             instance = dlcs.get(dietLimitsCalculationStrategyEnum).newInstance();
+             return dlcs.get(dietLimitsCalculationStrategyEnum).newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
+            //TODO
+            return new KeepWeightLimitsCalculationStrategy();
         }
-        return instance;
     }
 }
 

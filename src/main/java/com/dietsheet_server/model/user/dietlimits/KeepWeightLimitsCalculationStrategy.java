@@ -15,26 +15,28 @@ public class KeepWeightLimitsCalculationStrategy implements DietLimitsCalculatio
         BRMCalculator brmCalculator = new MifflinStJeorBRMCalculator();
         double BRMKcal = brmCalculator.calculateKCAL(userData);
 
-        double kcal = BRMKcal * CommonCPRIndicators.get(userData.getPhysicalActivity());
+        double kcal = BRMKcal * userData.getPhysicalActivity().getCprIndicator();
         double carbs = (kcal/2)/4;
         double proteins = (kcal/4)/4;
         double fat = (kcal/4)/9;
         double roughage = 30.0;
 
-        Summary minLimits = new Summary();
-        minLimits.setKcal(kcal * 0.95);
-        minLimits.setProteins(proteins * 0.95);
-        minLimits.setCarbs(carbs * 0.95);
-        minLimits.setFat(fat * 0.95);
-        minLimits.setRoughage(roughage * 0.8);
+        Summary minLimits = Summary.builder()
+                .kcal(kcal * 0.95)
+                .proteins(proteins * 0.95)
+                .carbs(carbs * 0.95)
+                .fat(fat * 0.95)
+                .roughage(roughage * 0.8)
+                .build();
         minLimits.roundValues(2);
 
-        Summary maxLimits = new Summary();
-        maxLimits.setKcal(kcal * 1.05);
-        maxLimits.setProteins(proteins * 1.05);
-        maxLimits.setCarbs(carbs * 1.05);
-        maxLimits.setFat(fat * 1.05);
-        maxLimits.setRoughage(roughage * 1.2);
+        Summary maxLimits = Summary.builder()
+                .kcal(kcal * 1.05)
+                .proteins(proteins * 1.05)
+                .carbs(carbs * 1.05)
+                .fat(fat * 1.05)
+                .roughage(roughage * 1.2)
+                .build();
         maxLimits.roundValues(2);
 
         DietLimits dietLimits = new DietLimits();

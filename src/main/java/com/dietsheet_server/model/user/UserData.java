@@ -1,6 +1,5 @@
 package com.dietsheet_server.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,10 +29,6 @@ public class UserData {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @JsonIgnore
-    @Column(name = "bmi")
-    private double bmi;
-
     @Column(name = "bmi_status")
     @Enumerated(EnumType.STRING)
     private BMIStatus bmiStatus;
@@ -47,14 +42,13 @@ public class UserData {
         height = 0;
         weight = 0;
         sex = Sex.UNDEFINED;
-        bmi = 0;
         bmiStatus = BMIStatus.UNDEFINED;
         physicalActivity = PhysicalActivity.LOW;
     }
 
     public void calculateBMI() {
         if(height > 0.0 && weight > 0.0) {
-            bmi = weight / ((height/100.0)*(height/100.0));
+            double bmi = weight / ((height/100.0)*(height/100.0));
             setBmiStatus(getBMIStatusForBMI(bmi));
         }
     }
@@ -85,11 +79,19 @@ public class UserData {
         UNDEFINED
     }
 
+    @Getter
     public enum  PhysicalActivity {
-        VERY_LOW,
-        LOW,
-        MEDIUM,
-        HIGH,
-        VERY_HIGH
+        VERY_LOW (1.2),
+        LOW(1.35),
+        MEDIUM(1.55),
+        HIGH(1.75),
+        VERY_HIGH(2.0);
+
+        double cprIndicator;
+
+        PhysicalActivity(double cprIndicator) {
+            this.cprIndicator = cprIndicator;
+        }
     }
 }
+
