@@ -68,4 +68,13 @@ public class Summary {
                 (int) (this.getRoughage()    + summaryToAdd.getRoughage() * multiplier)
         );
     }
+
+    public void roundValues(int precision) {
+        double scale = Math.pow(10, precision);
+        kcal = Math.round(kcal * scale) / scale;
+        proteins = Math.round(proteins * scale) / scale;
+        carbs = Math.round(carbs * scale) / scale;
+        fat = Math.round(fat * scale) / scale;
+        roughage = Math.round(roughage * scale) / scale;
+    }
 }

@@ -27,6 +27,7 @@ public class KeepWeightLimitsCalculationStrategy implements DietLimitsCalculatio
         minLimits.setCarbs(carbs * 0.95);
         minLimits.setFat(fat * 0.95);
         minLimits.setRoughage(roughage * 0.8);
+        minLimits.roundValues(2);
 
         Summary maxLimits = new Summary();
         maxLimits.setKcal(kcal * 1.05);
@@ -34,6 +35,7 @@ public class KeepWeightLimitsCalculationStrategy implements DietLimitsCalculatio
         maxLimits.setCarbs(carbs * 1.05);
         maxLimits.setFat(fat * 1.05);
         maxLimits.setRoughage(roughage * 1.2);
+        maxLimits.roundValues(2);
 
         DietLimits dietLimits = new DietLimits();
         dietLimits.setMaxLimits(maxLimits);
