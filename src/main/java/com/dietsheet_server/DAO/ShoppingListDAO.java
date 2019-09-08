@@ -1,7 +1,6 @@
 package com.dietsheet_server.DAO;
 
 import com.dietsheet_server.model.diet.shoppinglist.ShoppingList;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 
 @Component("shoppingListDAO")
@@ -12,6 +11,5 @@ public class ShoppingListDAO extends AbstractOwnedEntitySecuredDAO<ShoppingList>
 
     @Override
     public void initializeEntityChildren(ShoppingList shoppingList) {
-        Hibernate.initialize(shoppingList.getItems());
     }
 }
