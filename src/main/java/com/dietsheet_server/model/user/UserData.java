@@ -38,6 +38,10 @@ public class UserData {
     @Enumerated(EnumType.STRING)
     private BMIStatus bmiStatus;
 
+    @Column(name = "physical_activity")
+    @Enumerated(EnumType.STRING)
+    private PhysicalActivity physicalActivity;
+
     UserData() {
         age = 0;
         height = 0;
@@ -45,6 +49,7 @@ public class UserData {
         sex = Sex.UNDEFINED;
         bmi = 0;
         bmiStatus = BMIStatus.UNDEFINED;
+        physicalActivity = PhysicalActivity.LOW;
     }
 
     private void calculateBMI() {
@@ -78,5 +83,13 @@ public class UserData {
         OVERWEIGHT,
         OBESITY,
         UNDEFINED
+    }
+
+    public enum  PhysicalActivity {
+        VERY_LOW,
+        LOW,
+        MEDIUM,
+        HIGH,
+        VERY_HIGH
     }
 }

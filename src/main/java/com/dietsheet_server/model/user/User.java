@@ -1,5 +1,9 @@
 package com.dietsheet_server.model.user;
 
+import com.dietsheet_server.model.user.dietlimits.DietLimits;
+import com.dietsheet_server.model.user.dietlimits.DietLimitsCalculationStrategy;
+import com.dietsheet_server.model.user.dietlimits.DietLimitsCalculationStrategyEnum;
+import com.dietsheet_server.model.user.dietlimits.DietLimitsCalculationStrategyFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
@@ -41,6 +45,27 @@ public class User implements UserDetails {
             unique = true
     )
     private UserData userData;
+
+    @OneToOne(cascade =
+            CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "diet_limits_id",
+            referencedColumnName = "id",
+            unique = true
+    )
+    private DietLimits dietLimits;
+
+    @Column(name = "strategy_enum")
+    @Enumerated(EnumType.STRING)
+    private DietLimitsCalculationStrategyEnum strategyEnum;
+
+    public void calculateDietLimits() {
+        DietLimitsCalculationStrategy dietLimitsCalculationStrategy =
+                DietLimitsCalculationStrategyFactory.getDietLimitsCalculationStrategy(strategyEnum);
+        dietLimits = dietLimitsCalculationStrategy.calculateLimits(userData);
+    }
 
     @JsonProperty
     public void setPassword(String password) {

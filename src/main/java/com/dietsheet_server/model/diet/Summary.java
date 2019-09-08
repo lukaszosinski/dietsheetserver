@@ -19,19 +19,19 @@ public class Summary {
     private long id;
 
     @Column(name = "kcal")
-    private int kcal;
+    private double kcal;
 
     @Column(name = "proteins")
-    private int proteins;
+    private double proteins;
 
     @Column(name = "carbs")
-    private int carbs;
+    private double carbs;
 
     @Column(name = "fat")
-    private int fat;
+    private double fat;
 
     @Column(name = "roughage")
-    private int roughage;
+    private double roughage;
 
     public Summary() {
         this.kcal = 0;
@@ -41,7 +41,7 @@ public class Summary {
         this.roughage = 0;
     }
 
-    public Summary(int kcal, int proteins, int carbs, int fat, int roughage) {
+    public Summary(double kcal, double proteins, double carbs, double fat, double roughage) {
         this.kcal = kcal;
         this.proteins = proteins;
         this.carbs = carbs;
