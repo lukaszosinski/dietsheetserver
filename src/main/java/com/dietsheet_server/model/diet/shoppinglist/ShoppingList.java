@@ -2,7 +2,6 @@ package com.dietsheet_server.model.diet.shoppinglist;
 
 
 import com.dietsheet_server.model.OwnedEntity;
-import com.dietsheet_server.model.diet.Ingredient;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class ShoppingList extends OwnedEntity {
 
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     @JoinColumn(name = "shoppinglist_id")
