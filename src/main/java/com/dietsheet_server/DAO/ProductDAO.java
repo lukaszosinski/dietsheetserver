@@ -14,6 +14,7 @@ public class ProductDAO extends AbstractOwnedEntitySecuredDAO<Product> {
     @Override
     public void initializeEntityChildren(Product product) {
         Hibernate.initialize(product.getSummary());
+        Hibernate.initialize(product.getPrices());
     }
 
 }

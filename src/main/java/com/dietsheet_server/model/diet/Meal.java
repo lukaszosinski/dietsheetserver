@@ -33,6 +33,9 @@ public class Meal extends DietEntity {
     @JoinColumn(name = "meal_id")
     private List<Ingredient> ingredients;
 
+    @Column(name = "description")
+    private String description;
+
     @JsonIgnore
     @OneToMany(
             mappedBy = "meal",
