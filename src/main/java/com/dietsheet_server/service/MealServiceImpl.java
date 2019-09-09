@@ -66,6 +66,7 @@ public class MealServiceImpl implements Service<Meal> {
                 getInitializedIngredients(
                     mealUpdateData.getIngredients()
         ));
+        mealToUpdate.setDescription(mealUpdateData.getDescription());
         mealToUpdate.recalculateSummary();
         mealDAO.update(mealToUpdate);
         dietEntityCascadeUpdater.cascadeUpdateParents(mealToUpdate);

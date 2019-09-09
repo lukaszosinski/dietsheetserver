@@ -47,13 +47,14 @@ public class Summary {
     }
 
     public Summary add(Summary summaryToAdd) {
-        return new Summary(
+         Summary newSummary = new Summary(
                 this.getKcal()         + summaryToAdd.getKcal()  ,
                 this.getProteins()  + summaryToAdd.getProteins(),
                 this.getCarbs()       + summaryToAdd.getCarbs() ,
                 this.getFat()           + summaryToAdd.getFat()  ,
-                this.getRoughage() + summaryToAdd.getRoughage()
-        );
+                this.getRoughage() + summaryToAdd.getRoughage());
+         newSummary.roundValues(1);
+         return newSummary;
     }
 
     public Summary add(Summary summaryToAdd, double multiplier) {

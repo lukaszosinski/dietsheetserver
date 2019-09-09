@@ -1,16 +1,18 @@
 package com.dietsheet_server.model.diet;
 
-
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Table(name = "product")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product extends DietEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -31,6 +34,9 @@ public class Product extends DietEntity {
     @Enumerated(EnumType.STRING)
     private Granularity granularity = Granularity.HUNDRED_GRAMS;
 
+    @Column(name = "description")
+    private String description;
+
     @JsonIgnore
     @OneToMany(
             mappedBy = "product",
@@ -38,6 +44,10 @@ public class Product extends DietEntity {
             orphanRemoval = true
     )
     List<Ingredient> ingredients = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "product_id")
+    Set<Price> prices = new HashSet<>();
 
     @JsonIgnore
     @Override
@@ -51,6 +61,11 @@ public class Product extends DietEntity {
     @Override
     public void recalculateSummary() {
         //Do nothing
+    }
+
+    public void updatePrices(Set<Price> newPrices) {
+        this.prices.clear();
+        this.prices.addAll(newPrices);
     }
 
     @Getter
