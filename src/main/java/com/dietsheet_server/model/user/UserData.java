@@ -37,8 +37,8 @@ public class UserData {
     private double weight;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "user_data_history_id")
-    private List<UserDataSnapshot> userHistoricalData = new ArrayList<>();
+    @JoinColumn(name = "historical_data_id")
+    private List<UserDataSnapshot> historicalData = new ArrayList<>();
 
     @Column(name = "sex")
     @Enumerated(EnumType.STRING)
@@ -75,7 +75,7 @@ public class UserData {
     }
 
     public void updateAndStoreUserData(UserData newUserData) {
-        userHistoricalData.add(new UserDataSnapshot(this));
+        historicalData.add(new UserDataSnapshot(this));
         date = LocalDate.now();
         birthDate = newUserData.getBirthDate();
         height = newUserData.getHeight();

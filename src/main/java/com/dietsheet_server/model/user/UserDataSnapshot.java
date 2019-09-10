@@ -21,7 +21,7 @@ public class UserDataSnapshot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     @JsonSerialize(using = LocalDateEpochSerializer.class)
     @JsonDeserialize(using = LocalDateEpochDeserializer.class)
     LocalDate date;
