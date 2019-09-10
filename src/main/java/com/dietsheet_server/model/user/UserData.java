@@ -1,13 +1,21 @@
 package com.dietsheet_server.model.user;
 
+import com.dietsheet_server.serializer.LocalDateEpochDeserializer;
+import com.dietsheet_server.serializer.LocalDateEpochSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode
 @Entity
 @Table(name = "user_data")
@@ -16,14 +24,21 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "birth_date")
+    @JsonSerialize(using = LocalDateEpochSerializer.class)
+    @JsonDeserialize(using = LocalDateEpochDeserializer.class)
+    LocalDate birthDate;
+
 
     @Column(name = "height")
     private double height;
 
     @Column(name = "weight")
     private double weight;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_data_history_id")
+    private List<UserDataSnapshot> userHistoricalData = new ArrayList<>();
 
     @Column(name = "sex")
     @Enumerated(EnumType.STRING)
@@ -37,13 +52,19 @@ public class UserData {
     @Enumerated(EnumType.STRING)
     private PhysicalActivity physicalActivity;
 
+    @Column(name = "date")
+    @JsonSerialize(using = LocalDateEpochSerializer.class)
+    @JsonDeserialize(using = LocalDateEpochDeserializer.class)
+    LocalDate date;
+
     public UserData() {
-        age = 0;
+        birthDate = LocalDate.now();
         height = 0;
         weight = 0;
         sex = Sex.UNDEFINED;
         bmiStatus = BMIStatus.UNDEFINED;
         physicalActivity = PhysicalActivity.LOW;
+        date = LocalDate.now();
     }
 
     public void calculateBMI() {
@@ -51,6 +72,22 @@ public class UserData {
             double bmi = weight / ((height/100.0)*(height/100.0));
             setBmiStatus(getBMIStatusForBMI(bmi));
         }
+    }
+
+    public void updateAndStoreUserData(UserData newUserData) {
+        userHistoricalData.add(new UserDataSnapshot(this));
+        date = LocalDate.now();
+        birthDate = newUserData.getBirthDate();
+        height = newUserData.getHeight();
+        weight = newUserData.getWeight();
+        sex = newUserData.getSex();
+        physicalActivity = newUserData.getPhysicalActivity();
+        calculateBMI();
+    }
+
+    @JsonIgnore
+    public int getAge() {
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 
     private BMIStatus getBMIStatusForBMI(double bmi) {
