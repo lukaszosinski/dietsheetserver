@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Entity
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table(name = "user_historical_data")
+@Table(name = "user_data_snapshot")
 public class UserDataSnapshot {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

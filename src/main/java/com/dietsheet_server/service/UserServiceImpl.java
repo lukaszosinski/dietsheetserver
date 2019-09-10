@@ -3,6 +3,7 @@ package com.dietsheet_server.service;
 import com.dietsheet_server.DAO.UserDAO;
 import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.user.UserData;
+import com.dietsheet_server.model.user.UserDataSnapshot;
 import com.dietsheet_server.model.user.UserPreferences;
 import com.dietsheet_server.model.user.dietlimits.DietLimits;
 import com.dietsheet_server.model.user.dietlimits.DietLimitsCalculationStrategyEnum;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -48,6 +51,15 @@ public class UserServiceImpl implements UserService {
             throw new ResourceNotFoundException();
         }
         return userData;
+    }
+
+    @Override
+    public List<UserDataSnapshot> getUserDataHistory(User user) {
+        List<UserDataSnapshot> userDataHistory = userDAO.get(user.getId()).getData().getUserHistoricalData();
+        if(userDataHistory == null) {
+            throw new ResourceNotFoundException();
+        }
+        return userDataHistory;
     }
 
     @Override
