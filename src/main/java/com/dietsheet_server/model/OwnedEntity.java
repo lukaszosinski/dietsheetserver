@@ -18,4 +18,8 @@ public abstract class OwnedEntity {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
+
+    public boolean isPublic() {
+        return owner == null;
+    }
 }
