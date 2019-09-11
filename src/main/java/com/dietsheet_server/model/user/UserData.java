@@ -38,7 +38,7 @@ public class UserData {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "historical_data_id")
-    private List<UserDataSnapshot> historicalData = new ArrayList<>();
+    private List<UserDataSnapshot> history = new ArrayList<>();
 
     @Column(name = "sex")
     @Enumerated(EnumType.STRING)
@@ -67,15 +67,14 @@ public class UserData {
         date = LocalDate.now();
     }
 
-    public void calculateBMI() {
+    private void calculateBMI() {
         if(height > 0.0 && weight > 0.0) {
             double bmi = weight / ((height/100.0)*(height/100.0));
             setBmiStatus(getBMIStatusForBMI(bmi));
         }
     }
 
-    public void updateAndStoreUserData(UserData newUserData) {
-        historicalData.add(new UserDataSnapshot(this));
+    public void updateData(UserData newUserData) {
         date = LocalDate.now();
         birthDate = newUserData.getBirthDate();
         height = newUserData.getHeight();
@@ -83,6 +82,11 @@ public class UserData {
         sex = newUserData.getSex();
         physicalActivity = newUserData.getPhysicalActivity();
         calculateBMI();
+    }
+
+    public void updateAndStoreData(UserData newUserData) {
+        history.add(new UserDataSnapshot(this));
+        updateData(newUserData);
     }
 
     @JsonIgnore

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDataSnapshot> getUserDataHistory(User user) {
-        List<UserDataSnapshot> userDataHistory = userDAO.get(user.getId()).getData().getHistoricalData();
+        List<UserDataSnapshot> userDataHistory = userDAO.get(user.getId()).getData().getHistory();
         if(userDataHistory == null) {
             throw new ResourceNotFoundException();
         }
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserData(User user, UserData userData) {
         User userToUpdate = userDAO.get(user.getId());
-        userToUpdate.getData().updateAndStoreUserData(userData);
+        userToUpdate.getData().updateAndStoreData(userData);
         userToUpdate.calculateDietLimits();
         userDAO.update(userToUpdate);
     }
