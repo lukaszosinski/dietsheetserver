@@ -29,6 +29,12 @@ public class Summary {
     @Column(name = "fat")
     private double fat;
 
+    @Column(name = "saturatedFat")
+    private double saturatedFat;
+
+    @Column(name = "salt")
+    private double salt;
+
     @Column(name = "roughage")
     private double roughage;
 
@@ -50,6 +56,8 @@ public class Summary {
         this.carbs = 0;
         this.sugar = 0;
         this.fat = 0;
+        this.saturatedFat = 0;
+        this.salt = 0;
         this.roughage = 0;
         this.potassium = 0;
         this.calcium = 0;
@@ -65,6 +73,8 @@ public class Summary {
             double carbs,
             double sugar,
             double fat,
+            double saturatedFat,
+            double salt,
             double roughage,
             double potassium,
             double calcium,
@@ -75,6 +85,8 @@ public class Summary {
         this.carbs = carbs;
         this.sugar = sugar;
         this.fat = fat;
+        this.saturatedFat = saturatedFat;
+        this.salt = salt;
         this.roughage = roughage;
         this.potassium = potassium;
         this.calcium = calcium;
@@ -87,8 +99,10 @@ public class Summary {
                 this.getKcal()          + summaryToAdd.getKcal(),
                 this.getProteins()   + summaryToAdd.getProteins(),
                 this.getCarbs()        + summaryToAdd.getCarbs(),
-                 this.getSugar()        + summaryToAdd.getSugar(),
+                 this.getSugar()       + summaryToAdd.getSugar(),
                 this.getFat()            + summaryToAdd.getFat(),
+                 this.getSaturatedFat() + summaryToAdd.getSaturatedFat(),
+                 this.getSalt()            + summaryToAdd.getSalt(),
                 this.getRoughage()  + summaryToAdd.getRoughage(),
                 this.getPotassium() + summaryToAdd.getPotassium(),
                 this.getCalcium()     + summaryToAdd.getCalcium(),
@@ -100,31 +114,35 @@ public class Summary {
 
     public Summary add(Summary summaryToAdd, double multiplier) {
         Summary newSummary = new Summary(
-                (this.getKcal()         + summaryToAdd.getKcal()      * multiplier),
-                (this.getProteins()     + summaryToAdd.getProteins()  * multiplier),
-                (this.getCarbs()        + summaryToAdd.getCarbs()     * multiplier),
-                (this.getSugar()        + summaryToAdd.getSugar()     * multiplier),
-                (this.getFat()          + summaryToAdd.getFat()       * multiplier),
-                (this.getRoughage()     + summaryToAdd.getRoughage()  * multiplier),
-                (this.getPotassium()    + summaryToAdd.getPotassium() * multiplier),
-                (this.getCalcium()      + summaryToAdd.getCalcium()   * multiplier),
-                (this.getVitaminD()     + summaryToAdd.getVitaminD()  * multiplier),
-                (this.getVitaminC()     + summaryToAdd.getVitaminC()  * multiplier));
+                (this.getKcal()         + summaryToAdd.getKcal()         * multiplier),
+                (this.getProteins()     + summaryToAdd.getProteins()     * multiplier),
+                (this.getCarbs()        + summaryToAdd.getCarbs()        * multiplier),
+                (this.getSugar()        + summaryToAdd.getSugar()        * multiplier),
+                (this.getFat()          + summaryToAdd.getFat()          * multiplier),
+                (this.getSaturatedFat() + summaryToAdd.getSaturatedFat() * multiplier),
+                (this.getSalt()         + summaryToAdd.getSalt()         * multiplier),
+                (this.getRoughage()     + summaryToAdd.getRoughage()     * multiplier),
+                (this.getPotassium()    + summaryToAdd.getPotassium()    * multiplier),
+                (this.getCalcium()      + summaryToAdd.getCalcium()      * multiplier),
+                (this.getVitaminD()     + summaryToAdd.getVitaminD()     * multiplier),
+                (this.getVitaminC()     + summaryToAdd.getVitaminC()     * multiplier));
         newSummary.roundValues(1);
         return newSummary;
     }
 
     public void roundValues(int precision) {
         double scale = Math.pow(10, precision);
-        kcal      = Math.round(kcal      * scale) / scale;
-        proteins  = Math.round(proteins  * scale) / scale;
-        carbs     = Math.round(carbs     * scale) / scale;
-        sugar     = Math.round(sugar     * scale) / scale;
-        fat       = Math.round(fat       * scale) / scale;
-        roughage  = Math.round(roughage  * scale) / scale;
-        potassium = Math.round(potassium * scale) / scale;
-        calcium   = Math.round(calcium   * scale) / scale;
-        vitaminD  = Math.round(vitaminD  * scale) / scale;
-        vitaminC  = Math.round(vitaminC  * scale) / scale;
+        kcal         = Math.round(kcal         * scale) / scale;
+        proteins     = Math.round(proteins     * scale) / scale;
+        carbs        = Math.round(carbs        * scale) / scale;
+        sugar        = Math.round(sugar        * scale) / scale;
+        fat          = Math.round(fat          * scale) / scale;
+        saturatedFat = Math.round(saturatedFat * scale) / scale;
+        salt         = Math.round(salt         * scale) / scale;
+        roughage     = Math.round(roughage     * scale) / scale;
+        potassium    = Math.round(potassium    * scale) / scale;
+        calcium      = Math.round(calcium      * scale) / scale;
+        vitaminD     = Math.round(vitaminD     * scale) / scale;
+        vitaminC     = Math.round(vitaminC     * scale) / scale;
     }
 }
