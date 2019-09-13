@@ -3,6 +3,7 @@ package com.dietsheet_server.service;
 import com.dietsheet_server.DAO.UserDAO;
 import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.user.UserData;
+import com.dietsheet_server.model.user.UserDataSnapshot;
 import com.dietsheet_server.model.user.UserPreferences;
 import com.dietsheet_server.model.user.dietlimits.DietLimits;
 import com.dietsheet_server.model.user.dietlimits.DietLimitsCalculationStrategyEnum;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,6 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDataSnapshot> getUserDataHistory(User user) {
+        return userDAO.get(user.getId()).getData().getHistory();
+    }
+
+    @Override
     public UserPreferences getUserPreferences(User user) {
         UserPreferences userPreferences = userDAO.get(user.getId()).getPreferences();
         if(userPreferences == null) {
@@ -70,17 +78,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserData(User user, UserData userData) {
         User userToUpdate = userDAO.get(user.getId());
-        UserData userDataToUpdate = userToUpdate.getData();
-        userDataToUpdate.setAge(userData.getAge());
-        userDataToUpdate.setHeight(userData.getHeight());
-        userDataToUpdate.setWeight(userData.getWeight());
-        userDataToUpdate.setSex(userData.getSex());
-        userDataToUpdate.setPhysicalActivity(userData.getPhysicalActivity());
-        userDataToUpdate.calculateBMI();
-
-        userToUpdate.setData(userDataToUpdate);
+        userToUpdate.getData().updateAndStoreData(userData);
         userToUpdate.calculateDietLimits();
-
         userDAO.update(userToUpdate);
     }
 

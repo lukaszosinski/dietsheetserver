@@ -2,6 +2,7 @@ package com.dietsheet_server.controller;
 
 import com.dietsheet_server.model.user.User;
 import com.dietsheet_server.model.user.UserData;
+import com.dietsheet_server.model.user.UserDataSnapshot;
 import com.dietsheet_server.model.user.UserPreferences;
 import com.dietsheet_server.model.user.dietlimits.DietLimits;
 import com.dietsheet_server.service.UserService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -54,6 +57,13 @@ public class UserController {
             @AuthenticationPrincipal final User user) {
         UserData userData = userService.getUserData(user);
         return new ResponseEntity<>(userData, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/data/history")
+    public ResponseEntity<List<UserDataSnapshot> > getUserDataHistory(
+            @AuthenticationPrincipal final User user) {
+        List<UserDataSnapshot> userDataHistory = userService.getUserDataHistory(user);
+        return new ResponseEntity<>(userDataHistory, HttpStatus.OK);
     }
 
     @PutMapping("/user/preferences")
