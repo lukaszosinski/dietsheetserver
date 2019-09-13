@@ -55,7 +55,7 @@ public class UserData {
     @Column(name = "date")
     @JsonSerialize(using = LocalDateEpochSerializer.class)
     @JsonDeserialize(using = LocalDateEpochDeserializer.class)
-    LocalDate date;
+    LocalDate updateDate;
 
     public UserData() {
         birthDate = LocalDate.now();
@@ -64,7 +64,7 @@ public class UserData {
         sex = Sex.UNDEFINED;
         bmiStatus = BMIStatus.UNDEFINED;
         physicalActivity = PhysicalActivity.LOW;
-        date = LocalDate.now();
+        updateDate = LocalDate.now();
     }
 
     private void calculateBMI() {
@@ -75,7 +75,7 @@ public class UserData {
     }
 
     public void updateData(UserData newUserData) {
-        date = LocalDate.now();
+        updateDate = LocalDate.now();
         birthDate = newUserData.getBirthDate();
         height = newUserData.getHeight();
         weight = newUserData.getWeight();

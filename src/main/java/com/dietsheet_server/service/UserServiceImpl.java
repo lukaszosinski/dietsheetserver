@@ -55,11 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDataSnapshot> getUserDataHistory(User user) {
-        List<UserDataSnapshot> userDataHistory = userDAO.get(user.getId()).getData().getHistory();
-        if(userDataHistory == null) {
-            throw new ResourceNotFoundException();
-        }
-        return userDataHistory;
+        return userDAO.get(user.getId()).getData().getHistory();
     }
 
     @Override

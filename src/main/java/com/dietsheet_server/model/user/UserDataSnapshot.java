@@ -41,7 +41,7 @@ public class UserDataSnapshot {
     private UserData.PhysicalActivity physicalActivity;
 
     UserDataSnapshot(UserData userData) {
-        date = userData.getDate();
+        date = userData.getUpdateDate();
         height = userData.getHeight();
         weight = userData.getWeight();
         bmiStatus = userData.getBmiStatus();
